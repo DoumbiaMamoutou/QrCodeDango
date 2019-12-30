@@ -43,7 +43,7 @@ class Profile(models.Model):
 #----------- JOURS -----------------#
 
  
-class Jours(models.Model):
+class Qrcode(models.Model):
     jours = models.DateField()
     created_by = models.ForeignKey(User,on_delete=models.CASCADE, null=True,related_name= 'addby')
     debut_heure_arrivee = models.TimeField(null=True, default='08:00')
@@ -65,14 +65,14 @@ class Jours(models.Model):
     class Meta:
         """Meta definition for Exercice."""
 
-        verbose_name = 'Jours'
-        verbose_name_plural = 'Jours'
+        verbose_name = 'QrCode'
+        verbose_name_plural = 'QrCodes'
         ordering = ('created_at',)
 
 class Presence(models.Model):
     
     etudiant = models.ForeignKey(Profile,on_delete=models.CASCADE, null=True, related_name='userpresence')
-    jours = models.ForeignKey(Jours, on_delete=models.CASCADE, related_name='joursap')
+    qrcode = models.ForeignKey(Qrcode, on_delete=models.CASCADE, related_name='joursap')
     heure_arrivee = models.TimeField(null=True)
     heure_depart = models.TimeField(null=True, default='17:00')
     status = models.BooleanField(default=False)
@@ -80,6 +80,6 @@ class Presence(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
-        unique_together = ('etudiant', 'jours',)
+        unique_together = ('etudiant', 'qrcode',)
 
     
