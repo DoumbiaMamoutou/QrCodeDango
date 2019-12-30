@@ -58,9 +58,9 @@ class Qrcode(models.Model):
     
     def save(self, *args, **kwargs):
             
-        super(Jours, self).save(*args, **kwargs)
-        self.titre_slug = slugify(self.created_at+str(self.id))
-        super(Jours, self).save(*args, **kwargs)
+        super(Qrcode, self).save(*args, **kwargs)
+        self.titre_slug = slugify(str(self.created_at) + str(self.id))
+        super(Qrcode, self).save(*args, **kwargs)
 
     class Meta:
         """Meta definition for Exercice."""

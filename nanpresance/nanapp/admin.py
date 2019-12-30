@@ -23,7 +23,7 @@ class ProfilAdmin(admin.ModelAdmin):
     def desactive(self,request,queryset):
         queryset.update(status=True)
         self.message_user(request,'status desactive  ;-(')
-    active.short_description='active le status'
+    desactive.short_description='active le status'
     
     def my_image(self,obj):
         return mark_safe('<img src="{url}" width="100px" height="50px" />'.format(url=obj.images.url))
