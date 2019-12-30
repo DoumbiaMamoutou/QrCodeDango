@@ -6,3 +6,9 @@ def index(request):
         'qr_message':'bonjour le monde'
     }
     return render(request,'pages/index.html',data)
+
+def scanner(request):
+    data={
+        'qr_message':'bonjour le monde'
+    }
+    return render(request,'pages/scanner.html',data)
