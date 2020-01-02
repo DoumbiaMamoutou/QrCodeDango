@@ -23,8 +23,44 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 </head>
+<style>
+    .lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    }
+    .lds-ripple div {
+    position: absolute;
+    border: 4px solid #fff;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+    .lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+    }
+    @keyframes lds-ripple {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 72px;
+        height: 72px;
+        opacity: 0;
+    }
+    }
+
+</style>
 
 <body id="page-top">
+<div id="app">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -262,29 +298,32 @@
     </div>
 </div>
 
+    
+</div>
+
 <!-- Bootstrap core JavaScript-->
-<script src="/static/myadmin/vendor/jquery/jquery.min.js"></script>
-<script src="/static/myadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="/static/myadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="/static/myadmin/js/sb-admin-2.min.js"></script>
+<script src="/static/js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-<script src="/static/myadmin/vendor/chart.js/Chart.min.js"></script>
+<script src="/static/vendor/chart.js/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
-<script src="/static/myadmin/js/demo/chart-area-demo.js"></script>
-<script src="/static/myadmin/js/demo/chart-pie-demo.js"></script>
+<script src="/static/js/demo/chart-area-demo.js"></script>
+<script src="/static/js/demo/chart-pie-demo.js"></script>
 
 <!-- Page level plugins -->
-<script src="/static/myadmin/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="/static/myadmin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="/static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 <!-- Page level custom scripts -->
-<script src="/static/myadmin/js/demo/datatables-demo.js"></script>
+<script src="/static/js/demo/datatables-demo.js"></script>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -298,8 +337,42 @@
         });
     });
 </script>
-
-
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>  
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        var app =new Vue({
+            el:'#app',
+            data:{
+                dateQr:'',
+                patrick:"patrick",
+                QrCode:"bonjour 2020",
+            },
+            delimiters:["${","}"],
+            methods:{
+                addQr:function(){
+                    this.isregister=true
+                    axios.defaults.xsrfCookieName = 'csrftoken'
+                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                    axios.post('http://127.0.0.1:8000/addQrCode', {
+                        jours :''+ this.dateQr
+                        }).then(response => {
+                            console.log(response) 
+                            if(response.data.success){
+                                console.log("ok donne partie ")
+                                location.reload();
+                            }
+                            else{
+                                console.log("erreur ;-(")
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            
+                        })
+                },
+            }
+        })
+    </script>
 </body>
 
 </html>

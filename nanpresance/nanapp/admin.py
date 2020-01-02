@@ -47,7 +47,7 @@ class QrcodeAdmin(admin.ModelAdmin):
 @admin.register(models.Presence)
 
 class PresenceAdmin(admin.ModelAdmin):
-    list_display=('etudiant','qrcode','heure_arrivee','heure_depart','status','created_at','updated_at')
+    list_display=('jour','etudiant','qrcode','heure_arrivee','heure_depart','status','created_at','updated_at')
     list_filter=('etudiant','heure_arrivee','heure_depart')
     search_fields=('etudiant',)
     list_display_links=('etudiant',)

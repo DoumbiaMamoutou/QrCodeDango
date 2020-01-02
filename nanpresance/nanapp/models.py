@@ -70,7 +70,7 @@ class Qrcode(models.Model):
         ordering = ('created_at',)
 
 class Presence(models.Model):
-    
+    jour=models.DateField(null=True)
     etudiant = models.ForeignKey(Profile,on_delete=models.CASCADE, null=True, related_name='userpresence')
     qrcode = models.ForeignKey(Qrcode, on_delete=models.CASCADE, related_name='joursap')
     heure_arrivee = models.TimeField(null=True)

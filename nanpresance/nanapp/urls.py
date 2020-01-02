@@ -4,5 +4,6 @@ from . import views;
 
 urlpatterns = [
     path('',views.index,name='index'),
-    path('scanner',views.scanner,name='scanner')
+    path('scanner',views.scanner,name='scanner'),
+    path('addQrCode',views.addQrCode,name='addQrCode')
 ]
