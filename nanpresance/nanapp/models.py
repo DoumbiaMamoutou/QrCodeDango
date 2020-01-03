@@ -1,10 +1,10 @@
 from django.db import models
-# USEER
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from _datetime import datetime
 from django.utils.text import slugify
+from datetime import date,datetime,time
 # Create your models here.
 
 #-------- ETUDIANT --------#
@@ -44,7 +44,7 @@ class Profile(models.Model):
 
  
 class Qrcode(models.Model):
-    jours = models.DateField()
+    jours = models.CharField(editable=False,null=True,max_length=255)
     created_by = models.ForeignKey(User,on_delete=models.CASCADE, null=True,related_name= 'addby')
     debut_heure_arrivee = models.TimeField(null=True, default='08:00')
     fin_heure_arrivee = models.TimeField(null=True, default='10:00')
@@ -56,10 +56,22 @@ class Qrcode(models.Model):
     def __str__(self):
         return str( self.jours)
     
+    @property
+    def is_valid(self):
+        
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+            
+        if self.debut_heure_arrivee.strftime("%H:%M:%S") < current_time  and self.fin_heure_arrivee.strftime("%H:%M:%S") > current_time:
+            return True
+        else :
+            return False
+    
     def save(self, *args, **kwargs):
             
         super(Qrcode, self).save(*args, **kwargs)
         self.titre_slug = slugify(str(self.created_at) + str(self.id))
+        self.jours = date.today()
         super(Qrcode, self).save(*args, **kwargs)
 
     class Meta:
@@ -70,7 +82,7 @@ class Qrcode(models.Model):
         ordering = ('created_at',)
 
 class Presence(models.Model):
-    jour=models.DateField(null=True)
+    jour = models.CharField(editable=False,null=True,max_length=255)
     etudiant = models.ForeignKey(Profile,on_delete=models.CASCADE, null=True, related_name='userpresence')
     qrcode = models.ForeignKey(Qrcode, on_delete=models.CASCADE, related_name='joursap')
     heure_arrivee = models.TimeField(null=True)
@@ -82,4 +94,8 @@ class Presence(models.Model):
     class Meta:
         unique_together = ('etudiant', 'qrcode',)
 
-    
+    def save(self, *args, **kwargs):
+ 
+        super(Presence, self).save(*args, **kwargs)
+        self.jour = date.today()
+        super(Presence, self).save(*args, **kwargs)
