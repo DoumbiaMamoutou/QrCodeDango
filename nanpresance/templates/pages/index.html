@@ -7,7 +7,7 @@
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard  user.profile.groupe.equipe </h1>
+            <h1 class="h3 mb-0 text-gray-800">Dashboard  user.profile.groupe.equipe  ${ patrick }</h1>
         </div>
 
         <!-- Content Row -->
@@ -20,7 +20,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Etudiants</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">users.all | length </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"> users.all | length  </div>
                     </div>
                     <div class="col-auto">
                     <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -102,6 +102,111 @@
 
         <!-- Content Row -->
 
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Content Column -->
+            <div class="col-lg-8 mb-8">
+
+            <!-- Project Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Liste de présence</h6>
+                </div>
+                <div class="card-body">
+                 
+                <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Codev Qr</th>
+                        <th>Heure d'arrivee </th>
+                        <th>Heure depart </th>
+                        <th>Presant </th>
+                      
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                    <th>Nom</th>
+                    <th>Codev Qr</th>
+                    <th>Heure d'arrivee </th>
+                    <th>Heure depart </th>
+                    <th>Presant </th>
+
+
+                      
+                    </tr>
+                </tfoot>
+                <tbody>
+                   
+                    {% for lst in liste_presence %}
+                    <tr>
+                        <td> {{lst.etudiant}} </td>
+                        <td>{{lst.qrcode}} </td>
+                        <td>{{lst.heure_arrivee}} </td>
+                        <td>{{lst.heure_depart}} </td>
+                        <td>{{lst.status}}</td>
+                     
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+                
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+
+                <!-- Illustrations -->
+                {% if isQr %}
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Code du jours ${ dateQr } {{myQr.debut_heure_arrivee}}</h6>
+                    </div>
+                    <div class="card-body">
+                    <div class="text-center">
+                        {% qr_from_text  myQr.titre_slug  size="s" image_format="png" error_correction="L" %}  
+                    </div>
+                        
+                    
+                    </div>
+                </div>
+                {% endif %}
+                {% if not isQr %}
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Code du jours ${ dateQr }</h6>
+                    </div>
+                    <div class="card-body">
+                    <div class="text-center">
+                        <div  style="display: inline;justify-content: space-around;">
+                            <input type="date" v-model="dateQr" placeholder="selecte the date of Qr code ">
+                            <a href="#" v-on:click="addQr" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-add fa-sm text-white-50"></i> Generate QrCode </a>
+                        </div>
+                        <div class="lds-ripple"><div></div><div></div></div>
+                        {% qr_from_text  qr_message  size="s" image_format="png" error_correction="L" %}  
+                    </div>
+                        
+                    
+                    </div>
+                </div>
+                
+                {% endif %}
+        
+                     
+        
+                </div>
+
+            <!-- Color System -->
+           
+
+        </div>
+
+       
+
         <div class="row">
 
             <!-- Area Chart -->
@@ -172,79 +277,6 @@
             </div>
         </div>
 
-        <!-- Content Row -->
-        <div class="row">
-
-            <!-- Content Column -->
-            <div class="col-lg-8 mb-8">
-
-            <!-- Project Card Example -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Liste de présence</h6>
-                </div>
-                <div class="card-body">
-                 
-                <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Groupe</th>
-                      
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Groupe</th>
-                      
-                    </tr>
-                </tfoot>
-                <tbody>
-                   
-                     for item_user in users 
-                    <tr>
-                    <td> item_user.first_name </td>
-                    <td> item_user.last_name </td>
-                    <td>item_user.useringroup.name </td>
-                     
-                    </tr>
-                     endfor 
-                </tbody>
-                </table>
-            </div>
-                
-                </div>
-            </div>
-            </div>
-
-            <!-- Color System -->
-           
-
-            <div class="col-lg-4 mb-4">
-
-            <!-- Illustrations -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Code du jours</h6>
-                </div>
-                <div class="card-body">
-                <div class="text-center">
-                
-                    {% qr_from_text qr_message size="s" image_format="png" error_correction="L" %}  
-                </div>
-                <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!</p>
-                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                </div>
-            </div>
-
-             
-
-            </div>
-        </div>
 
         </div>
         <!-- /.container-fluid -->
