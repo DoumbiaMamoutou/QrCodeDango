@@ -4,33 +4,49 @@ from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
+
 @csrf_exempt
 def login(request):
     status = False
     message = ""
-
     if request.method == "POST":
-
         try:
-            
             postdata = json.loads(request.body.decode('utf-8'))
             username =  postdata['username']
             password = postdata['password']
-            
         except :
-
             username = request.POST.get('username',None)
             password = request.POST.get('password',None)
             
         user = authenticate(username=username, password=password)
         if user is not None:
             status = True
-            message = "bon identifinat"
+            message = "bon identifiant"
 
         else:
             
             status=False
             message = "Username ou password incorect"
+
+    return JsonResponse({
+            'status':status,
+            'message':message
+        })
+    
+@csrf_exempt
+def qrverif(request):
+    status = False
+    message = ""
+    if request.method == "POST":
+        try:
+            postdata = json.loads(request.body.decode('utf-8'))
+            username =  postdata['username']
+            password = postdata['password']
+        except :
+            username = request.POST.get('username',None)
+            password = request.POST.get('password',None)
+            
+ 
 
     return JsonResponse({
             'status':status,

@@ -7,6 +7,7 @@ router.register('user',ProfileViewSet,)
 
 urlpatterns = [
         path("login", views.login, name="login"),
+        path("verifqr", views.qrverif, name="verifqr"),
 ]
 
 
