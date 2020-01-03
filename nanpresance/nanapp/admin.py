@@ -14,6 +14,7 @@ class ProfilAdmin(admin.ModelAdmin):
     date_hierarchy=('date_add')
     readonly_fields=['detail_image']
     actions=('active','desactive')
+
     
     def active(self,request,queryset):
         queryset.update(status=True)
