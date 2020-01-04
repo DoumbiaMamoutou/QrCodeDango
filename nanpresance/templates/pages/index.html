@@ -130,7 +130,7 @@
                 <tfoot>
                     <tr>
                     <th>Nom</th>
-                    <th>Codev Qr</th>
+                    <th>Code Qr</th>
                     <th>Heure d'arrivee </th>
                     <th>Heure depart </th>
                     <th>Presant </th>
@@ -164,14 +164,20 @@
                 {% if isQr %}
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Code du jours  ${debutQr}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Code du jours  ${finQr}</h6>
                     </div>
+                    <div class="card-header-pills text-center" >
+                       <h4>${myMin}:${mySec}</h4> 
+                    </div>
+                    
                     {% for Qr in myQr %}
                     <div class="card-body">
-                    <div class="text-center">
+                    <div  class="text-center">
+                        <p id="dateQr">{{Qr.jours}}</p>
                         {% qr_from_text  Qr.titre_slug  size="s" image_format="png" error_correction="L" %}
-                        <input type="hidden" v-model="debutQr" value={{Qr.debut_heure_arrivee}}>
-                        <input type="hidden" v-model="finQr" value={{Qr.fin_heure_arrivee}}>
+                        <input type="hidden" id="debutQr" value={{Qr.debut_heure_arrivee}}>
+                        <input type="hidden" id="finQr" value={{Qr.fin_heure_arrivee}}>
+                        <input type="hidden"  value=" value={{Qr.jours}}">
                     </div>
                     {% endfor %}
                         
@@ -188,10 +194,17 @@
                     <div class="text-center">
                         <div  style="display: inline;justify-content: space-around;">
                             <input type="date" v-model="dateQr" placeholder="selecte the date of Qr code ">
-                            <a href="#" v-on:click="addQr" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-add fa-sm text-white-50"></i> Generate QrCode </a>
+                            <a href="#" v-on:click="addQr" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                <i class="fas fa-add fa-sm text-white-50"></i> Generate QrCode 
+                            </a>
                         </div>
                         <div class="lds-ripple"><div></div><div></div></div>
                         <img src="/static/img/undraw_security_o890.png" style="height: 150px;width: 200px;margin: 20px;text-align: center">
+                        
+                        <p id="dateQr"> </p>
+                        <input type="hidden" id="debutQr" value={{Qr.debut_heure_arrivee}}>
+                        <input type="hidden" id="finQr" value={{Qr.fin_heure_arrivee}}>
+                        <input type="hidden"  value=" value={{Qr.jours}}">
                         <h4>Le code Qr est inactif </h4>
                     </div>
                     </div>
