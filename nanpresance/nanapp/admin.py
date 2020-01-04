@@ -40,8 +40,8 @@ class QrcodeAdmin(admin.ModelAdmin):
     search_fields=('jours',)
     list_display_links=('jours','created_by')
     list_per_page=50
-    date_hierarchy=('jours')
-    ordering=['jours']
+    date_hierarchy=('created_at')
+    ordering=['created_at']
 
 
     
