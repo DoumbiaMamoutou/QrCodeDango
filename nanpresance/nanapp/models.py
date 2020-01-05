@@ -4,7 +4,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from _datetime import datetime
 from django.utils.text import slugify
-from datetime import date,datetime,time
+from datetime import date,datetime,time, timedelta
+from django.utils.timezone import now
+import pytz
+
+
 # Create your models here.
 
 #-------- ETUDIANT --------#
@@ -17,6 +21,7 @@ class Profile(models.Model):
     ville = models.CharField(max_length=255, null=True)
     birth_date = models.DateField(null=True)
     images = models.ImageField(upload_to='images/avatar/', default="photo.png")
+    specialite = models.CharField(max_length=255,null=True)
     status = models.BooleanField(default=True)
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
@@ -36,9 +41,9 @@ class Profile(models.Model):
         verbose_name = 'Profile'
         verbose_name_plural = 'Profiles'
 
-    def __str__(self):
-        """Unicode representation of Profile."""
-        return self.user.username
+    # def __str__(self):
+    #     """Unicode representation of Profile."""
+    #     return self.user.username
 
 #----------- JOURS -----------------#
 
@@ -55,6 +60,8 @@ class Qrcode(models.Model):
 
     def __str__(self):
         return str( self.jours)
+    
+    
     
     @property
     def is_valid(self):
