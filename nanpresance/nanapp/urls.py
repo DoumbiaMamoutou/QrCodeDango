@@ -12,7 +12,9 @@ urlpatterns = [
     path('register',views.register,name='register'),
     path('postRegister',views.postRegister,name='postRegister'),
     path('scanner',views.scanner,name='scanner'),
-    path('addQrCode',views.addQrCode,name='addQrCode')
+    path('addQrCode',views.addQrCode,name='addQrCode'),
+    path('unActiveQr',views.unActiveQr,name='unActiveQr'),
+    path('logout',views.logout,name='logout'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

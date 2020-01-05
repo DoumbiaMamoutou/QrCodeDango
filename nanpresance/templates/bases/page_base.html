@@ -219,7 +219,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle"  id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{request.user}}</span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
             </a>
             <!-- Dropdown - User Information -->
@@ -237,7 +237,7 @@
                 Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item"  data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item"  href="{% url 'logout' %}" >
                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                 Logout
                 </a>
@@ -346,11 +346,18 @@
                 dateQr:'',
                 patrick:"patrick",
                 QrCode:"bonjour 2020",
-                debutQr:'',
-                finQr:'',
+                debutQr:document.getElementById('debutQr').value,
+                finQr:document.getElementById('finQr').value,
+                myMin:'',
+                mySec:'',
+                showQr:true,
+                dateToUpdate:document.getElementById('dateQr').innerHTML,
 
             },
             delimiters:["${","}"],
+            mounted() {
+                this.chono()
+            },
             methods:{
                 addQr:function(){
                     this.isregister=true
@@ -359,6 +366,7 @@
                     axios.post('http://127.0.0.1:8000/addQrCode', {
                         jours :''+ this.dateQr
                         }).then(response => {
+                            print(this.dateQr)
                             console.log(response) 
                             if(response.data.success){
                                 console.log("ok donne partie ")
@@ -373,8 +381,54 @@
                             
                         })
                 },
+                chono:function(){
+                    seconde_fin =  parseInt(this.finQr.split(":")[0])*3600+parseInt(this.finQr.split(":")[1]*60)
+                    date = new Date
+                    curentSeconde = date.getHours()*3600 + date.getMinutes()*60 + date.getSeconds()
+                    myChonoSec = seconde_fin - curentSeconde;
+                    this.myMin = Math.floor(myChonoSec/60)
+                    this.mySec = myChonoSec%60
+                    console.log(this.myMin,this.mySec)
+                },
+                unActiveQrCode:function(){  
+                    new_dat =new Date(this.dateToUpdate);
+                    this.isregister=true
+                    axios.defaults.xsrfCookieName = 'csrftoken'
+                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                    axios.post('http://127.0.0.1:8000/unActiveQr', {
+                        jours :''+ new_dat
+                        }).then(response => {
+                            console.log(response) 
+                            if(response.data.success){
+                                console.log("ok donne partie ")
+                                location.reload();
+                            }
+                            else{
+                                console.log("erreur ;-(")
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            
+                        })
+                }
             }
         })
+        setInterval(
+            function(){
+                if(app.mySec == 1){
+                    app.myMin--
+                    app.mySec=60
+                }
+                else{
+                    app.mySec --
+                }
+                if(app.myMin < 0 ){
+                    app.showQr = false
+                }
+
+            },1000
+        )
     </script>
 </body>
 

@@ -41,7 +41,6 @@
             {% endif %}
             <form class="user" action="{% url 'postRegister' %}" method="POST">
             {% csrf_token %}
-                
                 <div class="form-group">
                 <input type="text" class="form-control form-control-user" name="login" value="{{ login }}" id="exampleInputEmail" placeholder="Login">
                 </div>
@@ -59,7 +58,6 @@
                 </div>
                 <input type="submit" value="Register Acount" class="btn btn-primary btn-user btn-block">
                 </input>
-               
             </form>
             <hr>
             <div class="text-center">

@@ -92,7 +92,7 @@ def postRegister(request):
         myU.save()
     except Exception as e :
         error =True
-        message =str(e)
+        message ="Error Username  "
     if(error):
         data={
             'error':True,
@@ -106,6 +106,7 @@ def postRegister(request):
         return redirect('index')
 
 def addQrCode(request):
+    
     post_data=json.loads(request.body.decode('utf-8'))
     jours =post_data['jours']
     if models.Qrcode.objects.filter(jours=jours).exists():
@@ -128,3 +129,19 @@ def addQrCode(request):
             'message':'code qr genere avec succe '
         }
     return JsonResponse(data,safe=True)
+
+def unActiveQr(request):
+    post_data=json.loads(request.body.decode('utf-8'))
+    jours =post_data['jours']
+    new_qr_code = models.Qrcode(jours=jours,created_by=request.user)
+    new_qr_code.status=False
+    new_qr_code.save()
+    data={
+        'success':False,
+        'message':'Update ok '
+    }
+    return JsonResponse(data,safe=True)
+def logout(request):
+    logout(request.user)
+    return redirect('login')
+    
