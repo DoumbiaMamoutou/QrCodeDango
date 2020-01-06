@@ -118,6 +118,10 @@ def addQrCode(request):
         hFin=post_data['heurFin']
         
     except Exception as e:
+        data={
+            'success':False,
+            'message':'Error to converte the variables'
+        }
         print("Error de recuperration des variables:",str(e))
     try:
         if models.Qrcode.objects.filter(jours=date.today())[:1].get():
@@ -127,7 +131,6 @@ def addQrCode(request):
                 'message':'le code a dejat ete genere '
             }
         else:
-            
             new_qr_code = models.Qrcode(debut_heure_arrivee=hDebut,fin_heure_arrivee=hFin,created_by=request.user)
             new_qr_code.save()
             # ceration de la liste de presance
@@ -142,6 +145,10 @@ def addQrCode(request):
                 'message':'code qr genere avec succe '
             }
     except Exception as e:
+        data ={
+            'success':False,
+            'message':'Erreur dans le traitement'
+        }
         print("Error in adding Qr code ",str(e))
     return JsonResponse(data,safe=True)
 

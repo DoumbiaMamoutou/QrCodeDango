@@ -25,7 +25,7 @@ SECRET_KEY = '7h3d6-00-fk4)jp^=yoeq1vi8j%l_!czang0dnu9o9z0q23djh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.50.142','127.0.0.1']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'nanapp.apps.NanappConfig',
     'rest_framework',
     'apiapp.apps.ApiappConfig',
+    'corsheaders' ,
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware' , 
+    'django.middleware.common.CommonMiddleware' , 
+]
+CORS_ORIGIN_WHITELIST  =  [ 
+    "http://192.168.50.142:8000",
+    "http://127.0.0.1:8000"
+    
 ]
 
 ROOT_URLCONF = 'nanpresance.urls'
