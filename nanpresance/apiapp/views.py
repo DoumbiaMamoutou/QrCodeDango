@@ -48,7 +48,7 @@ def qrverif(request):
         except :
             username = request.POST.get('username',None)
             qrcode = request.POST.get('qrcode',None)
-            
+
         user = User.objects.filter(username=username)[:1].get()
         if user is not None:
             try:

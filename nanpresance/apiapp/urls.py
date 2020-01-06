@@ -6,7 +6,7 @@ router = DefaultRouter()
 router.register('user',ProfileViewSet,)
 
 urlpatterns = [
-        path("login", views.login, name="login"),
+        path("login_api", views.login, name="login_api"),
         path("verifqr", views.qrverif, name="verifqr"),
 ]
 
