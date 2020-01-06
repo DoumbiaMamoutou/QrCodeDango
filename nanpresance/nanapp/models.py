@@ -20,7 +20,6 @@ class Profile(models.Model):
     status = models.BooleanField(default=True)
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
-
     # TODO: Define fields here
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -63,6 +62,7 @@ class Qrcode(models.Model):
         current_time = now.strftime("%H:%M:%S")
             
         if self.debut_heure_arrivee.strftime("%H:%M:%S") < current_time  and self.fin_heure_arrivee.strftime("%H:%M:%S") > current_time:
+            
             return True
         else :
             return False

@@ -9,9 +9,34 @@
     <title>Document</title>
 </head>
 <body style="text-align: center;">
-    <h1>Qr Code</h1>
-    <div>
-        {% qr_from_text qr_message size="l" image_format="png" error_correction="L" %}  
+    <div class="card shadow mb-4">
+    <div class="card-header py-3">
+    <input type="hidden" id="isQr" value="{{isQr}}">
+
+    <h6 class="m-0 font-weight-bold text-primary">Code du jours  ${finQr}</h6>
+                    
     </div>
+    <div v-if="showQr" class="card-header-pills text-center" >
+    <h4>${myMin}:${mySec}</h4> 
+    </div>
+                    
+    <div class="card-body">
+    <div v-if="showQr" class="text-center">
+        <p id="dateQr">{{myQr.jours}}</p>
+        {% qr_from_text  myQr.titre_slug  size="s" image_format="png" error_correction="L" %}
+        <input type="hidden" id="debutQr" value={{myQr.debut_heure_arrivee}}>
+        <input type="hidden" id="finQr" value={{myQr.fin_heure_arrivee}}>
+        <input type="hidden"  value=" value={{myQr.jours}}">
+    </div>
+    <div v-if="!showQr" class="text-center">
+        <img src="/static/img/undraw_security_o890.png" style="height: 150px;width: 200px;margin: 20px;text-align: center">
+        <h4>Le code Qr est inactif </h4>
+    </div>
+                        
+                    
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>  
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+       
 </body>
 </html>
