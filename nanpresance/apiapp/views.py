@@ -36,15 +36,11 @@ def login(request):
         if user is not None:
             
             profile = Profile.objects.filter(user=user).values('contacts','user__username','genre','user__email','specialite','images',)
-  
- 
-            
+
             data = {
                     'resultat':list(profile),
                     'status':True
                     }
-          
-
         else:
             data = {
             "status":False,
