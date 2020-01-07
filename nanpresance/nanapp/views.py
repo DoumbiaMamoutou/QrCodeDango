@@ -13,9 +13,9 @@ from .import models
 
 def login_page(request):
 
-    return render(request,'pages/login.html')
+    return render(request,'dashbord/login.html')
 def register(request):
-    return render(request,'pages/register.html')
+    return render(request,'dashbord/register.html')
 @login_required(login_url='login')
 def index(request):
     
@@ -49,7 +49,7 @@ def scanner(request):
     data={
         'qr_message':'bonjour le monde'
     }
-    return render(request,'pages/scanner.html',data)
+    return render(request,'dashbord/qrCode_page.html',data)
 
 
 def postLogin(request):
@@ -120,17 +120,20 @@ def addQrCode(request):
     except Exception as e:
         data={
             'success':False,
-            'message':'Error to converte the variables'
+            'message':'Error de convertion des variables'
         }
         print("Error de recuperration des variables:",str(e))
+
     try:
-        if models.Qrcode.objects.filter(jours=date.today())[:1].get():
-            print("##",models.Qrcode.objects.filter(jours=date.today())[:1].get())
-            data={
-                'success':False,
-                'message':'le code a dejat ete genere '
-            }
-        else:
+        my_user =models.Qrcode.objects.filter(jours=date.today())[:1].get()
+        qrExist=True
+        
+    except Exception as e:
+        qrExist=False
+        print("Exection Qr Existe ",str(e))
+    
+    if not qrExist:
+        try:
             new_qr_code = models.Qrcode(debut_heure_arrivee=hDebut,fin_heure_arrivee=hFin,created_by=request.user)
             new_qr_code.save()
             # ceration de la liste de presance
@@ -144,12 +147,18 @@ def addQrCode(request):
                 'success':True,
                 'message':'code qr genere avec succe '
             }
-    except Exception as e:
+        except Exception as e:
+            print("Error to adding Qr code ",str(e))
+            data ={
+                'success':False,
+                'message':'Error dans creation du code Qr '
+            }
+    else:
         data ={
             'success':False,
-            'message':'Erreur dans le traitement'
+            'message':'Qr code deja genere '
         }
-        print("Error in adding Qr code ",str(e))
+
     return JsonResponse(data,safe=True)
 
 def unActiveQr(request):
