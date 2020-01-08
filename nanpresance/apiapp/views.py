@@ -80,15 +80,15 @@ def qrverif(request):
                                 print("deux")
                                 presence = Presence.objects.filter(etudiant=profile,jour=jours).get()
                                 print("status code ",presence.status)
-                                if presence.status == False:
-                                    if qrcode == code.titre_slug:
-                                        presence.status = True
-                                        status = True
-                                        message = 'Success'
-                                        presence.save()
-                                    else:
-                                        status = False
-                                        message = 'mauvais QR_CODE'
+                                if qrcode != code.titre_slug:
+                                    status = False
+                                    message = 'mauvais QR_CODE'
+                                    return HttpResponse([] ,status=422)
+                                elif presence.status == False:
+                                    presence.status = True
+                                    status = True
+                                    message = 'Success'
+                                    presence.save()
                                 else:
                                     status = False
                                     message = 'Vous avez deja marquer votre presence' 
@@ -96,7 +96,7 @@ def qrverif(request):
                                 message =str(e)
                                 print("IN MY EXECPTION ",str(e))
                         else:
-                            return HttpResponse(status=422)
+                            return HttpResponse([] ,status=422)
                         
                     except :
                         pass
@@ -110,15 +110,5 @@ def qrverif(request):
             message=str(e)
             status=False
     
-    if not status:
-        
-        
-        return  JsonResponse({"status":status,"message":message},safe=True)
-        
-    else:
-        
-        data={
-            "status":status,
-            "message":message
-        }
-        return JsonResponse(data,safe=True)
+ 
+        return JsonResponse({"status":status,"message":message},safe=True)

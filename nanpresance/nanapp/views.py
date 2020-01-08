@@ -20,14 +20,16 @@ def register(request):
 def index(request):
     
     isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
+    qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
     nbr_student=models.Profile.objects.all().count()
     nbr_presant=models.Presence.objects.filter(status=True).count()
-    nbr_abs = models.Presence.objects.filter(status=False).count()
+    nbr_abs = models.Presence.objects.filter(jour=date.today(),status=False).count()
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print(isQr)
     if(isQr):
         myQr=models.Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
         list_presence =models.Presence.objects.filter(jour=date.today())
+        
         data={
             'myQr':myQr,
             'isQr':True,
@@ -36,14 +38,26 @@ def index(request):
             'nbr_presant':nbr_presant,
             'nbr_abs':nbr_abs
         }
-    else:
+   
+    elif qrDesactive:
+        list_presence =models.Presence.objects.filter(jour=date.today())
+
         data={
             "isQr":False,
             'nbr_etudiant': nbr_student,
             'nbr_presant': nbr_presant,
+            'liste_presence':list_presence,
             'nbr_abs': nbr_abs
         }
-    return render(request,'pages/index.html',data)
+    else:
+        data={
+        "isQr":False,
+        'nbr_etudiant': nbr_student,
+        'nbr_presant': nbr_presant,
+        'nbr_abs': nbr_abs
+        }
+        # return render(request,'pages/index.html',data)
+    return render(request,'dashbord/index.html',data)
 
 def scanner(request):
     data={

@@ -21,6 +21,13 @@
         <link href="/static/assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
         <link href="/static/assets/css/icons.css" rel="stylesheet" type="text/css">
         <link href="/static/assets/css/style.css" rel="stylesheet" type="text/css">
+
+        <!-- DataTables -->
+        <link href="/static/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/static/plugins/datatables/autoFill.bootstrap4.css" rel="stylesheet" type="text/css" />
+        <link href="/static/plugins/datatables/keyTable.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <script scr="/static/js/my_vue.js"></script>
+
     </head>
 
     <body>
@@ -130,7 +137,7 @@
                                             <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i> Settings</a>
                                             <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline"></i> Lock screen</a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item text-danger" href="#"><i class="mdi mdi-power text-danger"></i> Logout</a>
+                                            <a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="mdi mdi-power text-danger"></i> Logout</a>
                                         </div>
                                     </div>
                                 </li>
@@ -372,42 +379,65 @@
 
 </div>
         <!-- END wrapper -->
-
-        <div class="right-sidebar d-none d-xl-block">
+        <input type="hidden" id="isQr" value="{{isQr}}">
+        <div class="right-sidebar d-none d-xl-block" >
             <div class="slimscroll-menu">
                 <div class="px-4 pt-4">
-                    <div class="card user-wid text-center overflow-hidden">
-                        <div class="p-4 bg-lighten-danger"></div>
-                        <div class="mx-3">
-                            <div class="bg-white user-wid-content p-1 rounded">
-                                <div class="user-img">
-                                    <img src="/static/assets/images/users/user-1.jpg" alt="user-img" title="" class="rounded-circle thumb-md img-fluid">
-                                </div>
-                                <h5 class="font-14 mb-1"><a href="javascript: void(0);">James Heine</a> </h5>
-                                <p class="text-muted mb-2"><small>Admin Head</small></p>
-                            </div>
-                        </div>
-                    </div>
-                    
+                  <div id="app">
+                    {% if  isQr %}
                     <div class="mb-4">
-                        <h5 class="font-14">Qr Code Du jour </h5>
+                        <h5 class="font-14">Qr Code Du jour  ${hDebutQr}</h5>
                         <div v-if="showQr" class="text-center">
-                            <p id="dateQr">{{myQr.jours}}</p>
+                            <p id="dateQr">${myMin}:${mySec}</p>
                             {% qr_from_text  myQr.titre_slug  size="t" image_format="png" error_correction="L" %}
                             <input type="hidden" id="debutQr" value={{myQr.debut_heure_arrivee}}>
                             <input type="hidden" id="finQr" value={{myQr.fin_heure_arrivee}}>
-                            <input type="hidden"  value=" value={{myQr.jours}}">
+                            <input type="hidden"  value={{myQr.jours}}>
                         </div>
+                        <div v-if="!showQr" class="text-center">
+                            <img src="/static/img/undraw_security_o890.png" style="height: 150px;width: 200px;margin: 20px;text-align: center">
+                            
+                            <h5 class="font-14">Le code Qr est inactif </h5>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if not isQr %}
+                    <input type="hidden" id="debutQr" value={{myQr.debut_heure_arrivee}}>
+                    <input type="hidden" id="finQr" value={{myQr.fin_heure_arrivee}}>
+                    <input type="hidden"  value={{myQr.jours}}>
+                    <div class="md-4">
+                        <h5 class="font-14">Genere le Code Qr du jour </h5>
+                        <div class="form-group row">
+                            <div class="col-sm">
+                                <input class="form-control" type="time" v-model="hDebutQr" value="13:45:00" id="example-time-input">
+                            </div>
+                            <div class="col-sm">
+                                <input class="form-control" type="time" v-model="hFinQr" value="13:45:00" id="example-time-input">
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-primary btn-sm" @click.prevent="addQr">   Genere  </button>
+                        </div>
+                        <div v-if="showQr" class="text-center">
+                            <img src="/static/img/undraw_security_o890.png" style="height: 150px;width: 200px;margin: 20px;text-align: center">
+                            
+                            <h5 class="font-14">Le code Qr est inactif </h5>
+                        </div>
+                    </div>
+                    {% endif %}
                     </div>
 
                     <div class="mb-4">
-                        
+                        <h5 class="font-14">Calender</h5>
+
+                        <div class="dashboard-date-pick" id="date-pick-widget" data-provide="datepicker-inline"></div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- jQuery  -->
+
         <script src="/static/assets/js/jquery.min.js"></script>
         <script src="/static/assets/js/bootstrap.bundle.min.js"></script>
         <script src="/static/assets/js/metismenu.min.js"></script>
@@ -430,6 +460,108 @@
 
         <!-- App js -->
         <script src="/static/assets/js/app.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>  
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+            <script>
+                var app =new Vue({
+                    el:'#app',
+                    data:{
+                        dateQr:'',
+                        patrick:"patrick",
+                        QrCode:"bonjour 2020",
+                        debutQr:document.getElementById('debutQr').value,
+                        finQr:document.getElementById('finQr').value,
+                        myMin:'',
+                        mySec:'',
+                        showQr:true,
+                        hDebutQr:'',
+                        hFinQr:'',
+                        isQr:document.getElementById('isQr').value=='False'?false:true,
+                        updatedCodeQr:false
+                        // dateToUpdate:document.getElementById('dateQr').innerHTML,
+                    },
+                    delimiters:["${","}"],
+                    mounted() {
+                        this.chono()
+                    },
+                    methods:{
+                        addQr:function(){
+                            this.isregister=true
+                            axios.defaults.xsrfCookieName = 'csrftoken'
+                            axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                            axios.post('http://127.0.0.1:8000/addQrCode', {
+                                jours :''+ this.dateQr,
+                                heurDebut:''+this.hDebutQr,
+                                heurFin:''+this.hFinQr
+                                }).then(response => {
+                                    my_r =response.data
+                                    console.log(response) 
+                                    if(response.data.success){
+                                        console.log(my_r.message)
+                                        location.reload()
+                                    }
+                                    else{
+                                        console.log("erreur ;-(")
+                                    }
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                            
+                                })
+                        },
+                
+                        chono:function(){
+                            seconde_fin =  parseInt(this.finQr.split(":")[0])*3600+parseInt(this.finQr.split(":")[1]*60)
+                            date = new Date
+                            curentSeconde = date.getHours()*3600 + date.getMinutes()*60 + date.getSeconds()
+                            myChonoSec = seconde_fin - curentSeconde;
+                            this.myMin = Math.floor(myChonoSec/60)
+                            this.mySec = myChonoSec%60
+                            console.log(this.myMin,this.mySec)
+                        },
+                        unActiveQrCode:function(){  
+                            new_dat =new Date(this.dateToUpdate);
+                            this.isregister=true
+                            axios.defaults.xsrfCookieName = 'csrftoken'
+                            axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                            axios.post('http://127.0.0.1:8000/unActiveQr', {
+                        
+                                }).then(response => {
+                                    console.log(response) 
+                                    if(response.data.success){
+                                        console.log("ok donne partie ")
+                                        this.showQr=false
+                                    }
+                                    else{
+                                        console.log("erreur ;-(")
+                                    }
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                })
+                        }
+                    }
+                })
+                if(app.isQr){
+                    setInterval(
+                        function(){
+                            if(app.mySec == 1){
+                                app.myMin--
+                                app.mySec=60
+                            }
+                            else{
+                                app.mySec --
+                            }
+                            if(app.myMin < 0 ){
+                                console.log("le temp est passe ",app.updatedCodeQr)
+                                app.unActiveQrCode()
+                        
+                            }
+                        },1000
+                    )
+                }
+        
+            </script>
         
     </body>
 

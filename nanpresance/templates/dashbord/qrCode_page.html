@@ -1,3 +1,4 @@
+{% load qr_code  %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,42 +25,24 @@
         <div class="account-pages my-5 pt-5">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div>
                         <div class="card bg-pattern shadow-none">
                             <div class="card-body">
                                 <div class="text-center mt-4">
                                     <div class="mb-3">
                                         <a href="index.html" class="logo"><img src="/static/assets/images/logo-light.png" height="20" alt="logo"></a>
+
                                     </div>
                                 </div>
                                 <div class="p-3"> 
-                                    <h4 class="font-18 text-center">Reset Password</h4>
-                                    <div class="alert alert-success mt-4 mb-5 text-center" role="alert">
-                                        Enter your Email and instructions will be sent to you!
-                                    </div>
 
-                                    <form class="form-horizontal" action="index.html">
-                
-                                        <div class="form-group">
-                                            <label for="useremail">Email</label>
-                                            <input type="email" class="form-control" id="useremail" placeholder="Enter email">
-                                        </div>
-                    
-            
-                                        <div class="form-group row">
-                                            <div class="col-12 text-right">
-                                                <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Reset</button>
-                                            </div>
-                                        </div>
-    
-                                    </form>
-                
+                                        {% qr_from_text  myQr.titre_slug  size="m" image_format="png" error_correction="L" %}
+
                                 </div>
                     
                             </div>
                         </div>
                         <div class="mt-5 text-center text-white-50">
-                            <p>Remember It ? <a href="pages-login.html" class="font-500 text-white"> Sign In here </a> </p>
                             <p>© 2019 Veltrix. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
                         </div>
 
