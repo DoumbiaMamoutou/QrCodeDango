@@ -1,10 +1,11 @@
-    colorama==0.4.3
+colorama==0.4.3
 Django==2.2.5
+django-cors-headers==3.2.1
 django-qr-code==1.1.0
+djangorestframework==3.11.0
+drf-dynamic-fields==0.3.1
+Pillow==6.2.1
 pytz==2019.3
 qrcode==6.1
 six==1.13.0
 sqlparse==0.3.0
-pillow
-djangorestframework
-drf-dynamic-fields
