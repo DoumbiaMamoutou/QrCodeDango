@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User , auth
 from django.contrib.auth import authenticate, login
-from django.http import JsonResponse
+from django.http import JsonResponse ,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date,datetime,time
 from nanapp.models import *
+import json
 
 import ipaddress
 # Create your views here.
@@ -35,22 +36,19 @@ def login(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             
-            profile = Profile.objects.filter(user=user).values('contacts','user__username','genre','user__email','specialite','images',)
-
+            profile = Profile.objects.filter(user=user).values('contacts','user__username','genre','user__email','specialite','images',)[:1].get()
+            
             data = {
-                    'resultat':list(profile),
-                    'status':True
+                    'user':profile,
                     }
+            return JsonResponse(data)
+
         else:
-            data = {
-            "status":False,
-            "message" : "Username ou password incorect"
-                
-            }
+            return HttpResponse(status=401)
 
 
-    return JsonResponse(data)
     
+
 @csrf_exempt
 def qrverif(request):
     status = False
@@ -61,58 +59,56 @@ def qrverif(request):
             username =  postdata['username']
             qrcode = postdata['qrcode']
             ip_adress = postdata['ip_adrrese']
-            
-        except :
+        except Exception as e:
+            print("erro in ",str(e))
+            message=str(e)
             username = request.POST.get('username',None)
             qrcode = request.POST.get('qrcode',None)
             ip_adress = request.POST.get('ip_adrrese',None)
         try:
+            print(username)
             user = User.objects.filter(username=username)[:1].get()
-        except :
-            pass
-
-        if user is not None:
-            
-            if ipaddress.ip_address('{ip}'.format(ip=ip_adress)) in ipaddress.ip_network('192.168.50.0/24'):
-                
-              
-                try:
-                    
-                    jours = date.today()
-                    code = Qrcode.objects.filter(jours=jours)[:1].get()
-                    if code.is_valid:
-                        try:
-                            profile = Profile.objects.filter(user=user)[:1].get()
-                            presence = Presence.objects.filter(etudiant=profile,jour=jours)[:1].get()
-                            if presence.status == False:
-                                
-                                if qrcode == code.titre_slug:
-                                    
-                                    
+            if user is not None:
+                if ipaddress.ip_address('{ip}'.format(ip=ip_adress)) in ipaddress.ip_network('192.168.50.0/24'):
+                    try:
+                        jours = date.today()
+                        code = Qrcode.objects.filter(jours=jours)[:1].get()
+                        if code.is_valid:
+                            try:
+                                print("un")
+                                profile = Profile.objects.filter(user=user)[:1].get()
+                                print("deux")
+                                presence = Presence.objects.filter(etudiant=profile,jour=jours).get()
+                                print("status code ",presence.status)
+                                if qrcode != code.titre_slug:
+                                    status = False
+                                    message = 'mauvais QR_CODE'
+                                    return HttpResponse([] ,status=422)
+                                elif presence.status == False:
                                     presence.status = True
                                     status = True
                                     message = 'Success'
                                     presence.save()
                                 else:
                                     status = False
-                                    message = 'mauvais QR_CODE'
-                            else:
-                                status = False
-                                message = 'Vous avez deja marquer votre presence' 
-                          
-                        except :
-                            
-                            pass
+                                    message = 'Vous avez deja marquer votre presence' 
+                            except Exception as e:
+                                message =str(e)
+                                print("IN MY EXECPTION ",str(e))
+                        else:
+                            return HttpResponse([] ,status=422)
+                        
+                    except :
+                        pass
+    
+                else:
+                    status = False
+                    message = 'Vous devez etre a NaN avant de Scaner le QrCode' 
                     
-                except :
-                    pass
+                
+        except Exception as e:
+            message=str(e)
+            status=False
+    
  
-            else:
-                
-                status = False
-                message = 'Vous devez etre a NaN avant de Scaner le QrCode' 
-                
-    return JsonResponse({
-            'status':status,
-            'message':message
-        })
+        return JsonResponse({"status":status,"message":message},safe=True)

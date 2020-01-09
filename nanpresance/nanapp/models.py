@@ -40,9 +40,9 @@ class Profile(models.Model):
         verbose_name = 'Profile'
         verbose_name_plural = 'Profiles'
 
-    # def __str__(self):
-    #     """Unicode representation of Profile."""
-    #     return self.user.username
+    def __str__(self):
+        """Unicode representation of Profile."""
+        return self.user.username
 
 #----------- JOURS -----------------#
 

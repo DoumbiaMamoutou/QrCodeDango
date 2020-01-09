@@ -1,0 +1,160 @@
+{% extends 'bases/dash_base.html' %}
+{% block content%}
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content dasboard-content">
+            <div class="container-fluid">
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h4 class="page-title">Dashboard</h4>
+                            <ol class="breadcrumb">
+                                <!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+                                <li class="breadcrumb-item active">Welcome to Veltrix Dashboard</li>
+                            </ol>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="float-right d-none d-md-block">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="mdi mdi-settings mr-2"></i> Settings
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Separated link</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end row -->
+                </div>
+                <!-- end page-title -->
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card mini-stat bg-pattern">
+                            <div class="card-body mini-stat-img">
+                                <div class="mini-stat-icon">
+                                    <i class="dripicons-broadcast bg-soft-primary text-primary float-right h4"></i>
+                                </div>
+                                <h6 class="text-uppercase mb-3 mt-0">Total Etudiant</h6>
+                                <h5 class="mb-3">{{nbr_etudiant}}</h5>
+                                <p class="text-muted mb-0"><span class="text-success mr-2"> 12% <i class="mdi mdi-arrow-up"></i> </span> From previous period</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card mini-stat bg-pattern">
+                            <div class="card-body mini-stat-img">
+                                <div class="mini-stat-icon">
+                                    <i class="dripicons-box bg-soft-primary text-primary float-right h4"></i>
+                                </div>
+                                <h6 class="text-uppercase mb-3 mt-0">Presant </h6>
+                                <h5 class="mb-3">{{nbr_presant}} </h5>
+                                <p class="text-muted mb-0"><span class="text-danger mr-2"> -26% <i class="mdi mdi-arrow-down"></i> </span> From previous period</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card mini-stat bg-pattern">
+                            <div class="card-body mini-stat-img">
+                                <div class="mini-stat-icon">
+                                    <i class="dripicons-tags bg-soft-primary text-primary float-right h4"></i>
+                                </div>
+                                <h6 class="text-uppercase mb-3 mt-0">Absante </h6>
+                                <h5 class="mb-3">{{ nbr_abs }}</h5>
+                                <p class="text-muted mb-0"><span class="text-danger mr-2"> -26% <i class="mdi mdi-arrow-down"></i> </span> From previous period</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+                    <div class="">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="mt-0 header-title mb-4">Presant par jour </h4>
+                                
+                                <div id="column-chart" dir="ltr"></div>
+                            </div>
+                        </div>
+                    </div>
+         
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+        
+                                <h4 class="mt-0 header-title mb-4">Datatable Editable</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Codev Qr</th>
+                                            <th>Heure d'arrivee </th>
+                                            <th>Heure depart </th>
+                                            <th>Presant </th>
+                          
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                        <th>Nom</th>
+                                        <th>Code Qr</th>
+                                        <th>Heure d'arrivee </th>
+                                        <th>Heure depart </th>
+                                        <th>Presant </th>
+    
+    
+                          
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                       
+                                        {% for lst in liste_presence %}
+                                        <tr>
+                                            <td> {{lst.etudiant}} </td>
+                                            <td>{{lst.qrcode}} </td>
+                                            <td>{{lst.heure_arrivee}} </td>
+                                            <td>{{lst.heure_depart}} </td>
+                                            <td>{{lst.status}}</td>
+                         
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    </table>
+                                </div>
+                        </div>
+                    </div> <!-- end col -->
+                    <!-- end col -->
+
+                </div>
+                <!-- end row -->
+                
+            </div>
+            <!-- container-fluid -->
+
+        </div>
+        <!-- content -->
+
+        <footer class="footer">
+            © 2019 Veltrix <span class="d-none d-sm-inline-block"> - Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</span>.
+        </footer>
+
+
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+    
+
+{% endblock %}

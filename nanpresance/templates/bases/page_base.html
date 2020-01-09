@@ -379,6 +379,7 @@
                             console.log(response) 
                             if(response.data.success){
                                 console.log(my_r.message)
+                                location.reload()
                             }
                             else{
                                 console.log("erreur ;-(")
@@ -389,6 +390,7 @@
                             
                         })
                 },
+                
                 chono:function(){
                     seconde_fin =  parseInt(this.finQr.split(":")[0])*3600+parseInt(this.finQr.split(":")[1]*60)
                     date = new Date
