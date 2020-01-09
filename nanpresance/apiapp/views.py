@@ -12,10 +12,10 @@ import ipaddress
 
 
 
-Nan = ipaddress.ip_network('192.168.50.0/24')
-for x in Nan.hosts():
+# Nan = ipaddress.ip_network('192.168.50.0/24')
+# for x in Nan.hosts():
      
-    print(x)  
+#     print(x)  
 
 
 
@@ -44,10 +44,12 @@ def login(request):
             return JsonResponse(data)
 
         else:
+            
             return HttpResponse(status=401)
+           
 
 
-    
+
 
 @csrf_exempt
 def qrverif(request):
@@ -59,14 +61,11 @@ def qrverif(request):
             username =  postdata['username']
             qrcode = postdata['qrcode']
             ip_adress = postdata['ip_adrrese']
-        except Exception as e:
-            print("erro in ",str(e))
-            message=str(e)
+        except :
             username = request.POST.get('username',None)
             qrcode = request.POST.get('qrcode',None)
             ip_adress = request.POST.get('ip_adrrese',None)
         try:
-            print(username)
             user = User.objects.filter(username=username)[:1].get()
             if user is not None:
                 if ipaddress.ip_address('{ip}'.format(ip=ip_adress)) in ipaddress.ip_network('192.168.50.0/24'):
@@ -75,26 +74,26 @@ def qrverif(request):
                         code = Qrcode.objects.filter(jours=jours)[:1].get()
                         if code.is_valid:
                             try:
-                                print("un")
+                          
                                 profile = Profile.objects.filter(user=user)[:1].get()
-                                print("deux")
+                          
                                 presence = Presence.objects.filter(etudiant=profile,jour=jours).get()
-                                print("status code ",presence.status)
+                      
                                 if qrcode != code.titre_slug:
                                     status = False
                                     message = 'mauvais QR_CODE'
                                     return HttpResponse([] ,status=422)
                                 elif presence.status == False:
                                     presence.status = True
-                                    status = True
                                     message = 'Success'
+                                    status = True
                                     presence.save()
                                 else:
                                     status = False
-                                    message = 'Vous avez deja marquer votre presence' 
+                                    message = 'Vous avez deja marquer votre Presence' 
                             except Exception as e:
                                 message =str(e)
-                                print("IN MY EXECPTION ",str(e))
+                             
                         else:
                             return HttpResponse([] ,status=422)
                         
@@ -111,4 +110,4 @@ def qrverif(request):
             status=False
     
  
-        return JsonResponse({"status":status,"message":message},safe=True)
+    return JsonResponse({"status":status,"message":message},safe=True)
