@@ -100,7 +100,6 @@
                                             <th>Heure d'arrivée </th>
                                             <th>Heure depart </th>
                                             <th>Statut De Présence </th>
-                          
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -113,7 +112,6 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                       
                                         {% for lst in liste_presence %}
                                         <tr>
                                             <td> {{lst.etudiant}} </td>
@@ -121,7 +119,6 @@
                                             <td>{{lst.heure_arrivee}} </td>
                                             <td>{{lst.heure_depart}} </td>
                                             <td>{{lst.status}}</td>
-                         
                                         </tr>
                                         {% endfor %}
                                     </tbody>
