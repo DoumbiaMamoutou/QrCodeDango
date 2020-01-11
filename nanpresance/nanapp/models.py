@@ -59,9 +59,7 @@ class Qrcode(models.Model):
 
     def __str__(self):
         return str( self.jours)
-    
-    
-    
+
     @property
     def is_valid(self):
         

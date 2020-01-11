@@ -14,15 +14,13 @@
                             <h4 class="page-title">Dashboard</h4>
                             <ol class="breadcrumb">
                                 <!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
-                                <li class="breadcrumb-item active">Welcome to Veltrix Dashboard</li>
+                                <li class="breadcrumb-item active">Welcome to NaN Presence <li>
                             </ol>
                         </div>
                         <div class="col-sm-6">
                             <div class="float-right d-none d-md-block">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="mdi mdi-settings mr-2"></i> Settings
-                                    </button>
+
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a class="dropdown-item" href="#">Action</a>
                                         <a class="dropdown-item" href="#">Another action</a>
@@ -46,7 +44,7 @@
                                 </div>
                                 <h6 class="text-uppercase mb-3 mt-0">Total Etudiant</h6>
                                 <h5 class="mb-3">{{nbr_etudiant}}</h5>
-                                <p class="text-muted mb-0"><span class="text-success mr-2"> 12% <i class="mdi mdi-arrow-up"></i> </span> From previous period</p>
+                                <p class="text-muted mb-0"></p>
                             </div>
                         </div>
                     </div>
@@ -56,9 +54,9 @@
                                 <div class="mini-stat-icon">
                                     <i class="dripicons-box bg-soft-primary text-primary float-right h4"></i>
                                 </div>
-                                <h6 class="text-uppercase mb-3 mt-0">Presant </h6>
+                                <h6 class="text-uppercase mb-3 mt-0">Etudiant Présent </h6>
                                 <h5 class="mb-3">{{nbr_presant}} </h5>
-                                <p class="text-muted mb-0"><span class="text-danger mr-2"> -26% <i class="mdi mdi-arrow-down"></i> </span> From previous period</p>
+                                <!-- <p class="text-muted mb-0"><span class="text-danger mr-2"> -26% <i class="mdi mdi-arrow-down"></i> </span> From previous period</p> -->
                             </div>
                         </div>
                     </div>
@@ -68,9 +66,9 @@
                                 <div class="mini-stat-icon">
                                     <i class="dripicons-tags bg-soft-primary text-primary float-right h4"></i>
                                 </div>
-                                <h6 class="text-uppercase mb-3 mt-0">Absante </h6>
+                                <h6 class="text-uppercase mb-3 mt-0">Etudiant Absent </h6>
                                 <h5 class="mb-3">{{ nbr_abs }}</h5>
-                                <p class="text-muted mb-0"><span class="text-danger mr-2"> -26% <i class="mdi mdi-arrow-down"></i> </span> From previous period</p>
+                                <!-- <p class="text-muted mb-0"><span class="text-danger mr-2"> -26% <i class="mdi mdi-arrow-down"></i> </span> From previous period</p> -->
                             </div>
                         </div>
                     </div>
@@ -80,9 +78,9 @@
                     <div class="">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="mt-0 header-title mb-4">Presant par jour </h4>
+                                <h4 class="mt-0 header-title mb-4">Présence par Mois </h4>
                                 
-                                <div id="column-chart" dir="ltr"></div>
+                                <div id="column-chart" dir="ltr"></div> 
                             </div>
                         </div>
                     </div>
@@ -92,16 +90,16 @@
                         <div class="card">
                             <div class="card-body">
         
-                                <h4 class="mt-0 header-title mb-4">Datatable Editable</h4>
+                                <h4 class="mt-0 header-title mb-4">Table de Presence</h4>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Nom</th>
-                                            <th>Codev Qr</th>
-                                            <th>Heure d'arrivee </th>
+                                            <th>Username</th>
+                                            <th>Date Du Jour</th>
+                                            <th>Heure d'arrivée </th>
                                             <th>Heure depart </th>
-                                            <th>Presant </th>
+                                            <th>Statut De Présence </th>
                           
                                         </tr>
                                     </thead>
@@ -111,10 +109,7 @@
                                         <th>Code Qr</th>
                                         <th>Heure d'arrivee </th>
                                         <th>Heure depart </th>
-                                        <th>Presant </th>
-    
-    
-                          
+                                        <th>Presant </th>                     
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -146,7 +141,7 @@
         <!-- content -->
 
         <footer class="footer">
-            © 2019 Veltrix <span class="d-none d-sm-inline-block"> - Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</span>.
+            © 2019 NaN <span class="d-none d-sm-inline-block"> - Not A Number <i class="mdi mdi-heart text-danger"></i> by Devpython</span>.
         </footer>
 
 

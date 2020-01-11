@@ -5,7 +5,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-        <title>Veltrix - Admin Dashboard Template | Themesbrand</title>
+        <title>Nan - Prensence | Not-a-Number </title>
         <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
         <meta content="Themesbrand" name="author" />
         <link rel="shortcut icon" href="assets/images/favicon.ico">
@@ -18,7 +18,7 @@
 
     <body class="bg-primary">
         <div class="home-btn d-none d-sm-block">
-            <a href="index.html" class="text-white"><i class="fas fa-home h2"></i></a>
+            <a href="{% url 'index' %}" class="text-white"><i class="fas fa-home h2"></i></a>
         </div>
 
         <div class="account-pages my-5 pt-5">
@@ -29,7 +29,7 @@
                             <div class="card-body">
                                 <div class="text-center mt-4">
                                     <div class="mb-3">
-                                        <a href="index.html" class="logo"><img src="/static/assets/images/logo-light.png" height="20" alt="logo"></a>
+                                        <a href="{% url 'index' %}" class="logo"><img src="/static/assets/images/logo-light.png" height="20" alt="logo"></a>
                                     </div>
                                 </div>
                                 <div class="p-3"> 
@@ -51,20 +51,11 @@
                                             <label for="userpassword">Password</label>
                                             <input type="password" class="form-control" id="userpassword" name="pass" placeholder="Enter password">
                                         </div>
-                
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customControlInline">
-                                            <label class="custom-control-label" for="customControlInline">Remember me</label>
-                                        </div>
-                                        
                                         <div class="mt-3">
                                             <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
                                             </input>
                                         </div>
-            
-                                        <div class="mt-4 text-center">
-                                            <a href="pages-recoverpw.html"><i class="mdi mdi-lock"></i> Forgot your password?</a>
-                                        </div>
+        
                                     </form>
                 
                                 </div>
@@ -72,8 +63,7 @@
                             </div>
                         </div>
                         <div class="mt-5 text-center text-white-50">
-                            <p>Don't have an account ? <a href="pages-register.html" class="font-500 text-white"> Signup now </a> </p>
-                            <p>© 2019 Veltrix. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                            <p>© 2019 Nan-Not a Number <i class="mdi mdi-heart text-danger"></i> by DevPython</p>
                         </div>
 
                     </div>
