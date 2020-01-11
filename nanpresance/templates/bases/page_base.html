@@ -400,28 +400,28 @@
                     this.mySec = myChonoSec%60
                     console.log(this.myMin,this.mySec)
                 },
-                unActiveQrCode:function(){
-                    new_dat =new Date(this.dateToUpdate);
-                    this.isregister=true
-                    axios.defaults.xsrfCookieName = 'csrftoken'
-                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-                    axios.post('http://192.168.50.142:8000/unActiveQr', {
+                //unActiveQrCode:function(){
+                    //new_dat =new Date(this.dateToUpdate);
+                    //this.isregister=true
+                    //axios.defaults.xsrfCookieName = 'csrftoken'
+                    //axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                    //axios.post('http://192.168.50.142:8000/unActiveQr', {
 
-                        }).then(response => {
-                            console.log(response)
-                            if(response.data.success){
-                                console.log("ok donne partie ")
-                                this.showQr=false
-                                location.reload()
-                            }
-                            else{
-                                console.log("erreur ;-(")
-                            }
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        })
-                }
+                        //}).then(response => {
+                            //console.log(response)
+                            //if(response.data.success){
+                                //console.log("ok donne partie ")
+                                //this.showQr=false
+                              //  location.reload()
+                            //}
+                           // else{
+                         //       console.log("erreur ;-(")
+                       //     }
+                     //   })
+                   //     .catch((err) => {
+                 //           console.log(err);
+               //         })
+              //  }
             }
         })
         if(app.isQr){
@@ -435,8 +435,8 @@
                         app.mySec --
                     }
                     if(app.myMin < 0 ){
-                        console.log("le temp est passe ",app.updatedCodeQr)
-                        app.unActiveQrCode()
+                        //console.log("le temp est passe ",app.updatedCodeQr)
+                        //app.unActiveQrCode()
 
                     }
                 },1000
