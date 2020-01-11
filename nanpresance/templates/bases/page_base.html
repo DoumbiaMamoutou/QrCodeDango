@@ -337,7 +337,7 @@
         });
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>  
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         var app =new Vue({
@@ -346,8 +346,8 @@
                 dateQr:'',
                 patrick:"patrick",
                 QrCode:"bonjour 2020",
-                // 
-                // 
+                //
+                //
                 debutQr:document.getElementById('debutQr').value,
                 finQr:document.getElementById('finQr').value,
                 myMin:'',
@@ -355,7 +355,7 @@
                 showQr:true,
                 hDebutQr:'',
                 hFinQr:'',
-                isQr:document.getElementById('isQr').value=='False'?false:true,
+                isQr:document.getElementById('isQr').value == 'False'?false:true,
                 updatedCodeQr:false
 
                 // dateToUpdate:document.getElementById('dateQr').innerHTML,
@@ -376,7 +376,7 @@
                         heurFin:''+this.hFinQr
                         }).then(response => {
                             my_r =response.data
-                            console.log(response) 
+                            console.log(response)
                             if(response.data.success){
                                 console.log(my_r.message)
                                 location.reload()
@@ -387,10 +387,10 @@
                         })
                         .catch((err) => {
                             console.log(err);
-                            
+
                         })
                 },
-                
+
                 chono:function(){
                     seconde_fin =  parseInt(this.finQr.split(":")[0])*3600+parseInt(this.finQr.split(":")[1]*60)
                     date = new Date
@@ -400,18 +400,19 @@
                     this.mySec = myChonoSec%60
                     console.log(this.myMin,this.mySec)
                 },
-                unActiveQrCode:function(){  
+                unActiveQrCode:function(){
                     new_dat =new Date(this.dateToUpdate);
                     this.isregister=true
                     axios.defaults.xsrfCookieName = 'csrftoken'
                     axios.defaults.xsrfHeaderName = 'X-CSRFToken'
                     axios.post('http://192.168.50.142:8000/unActiveQr', {
-                        
+
                         }).then(response => {
-                            console.log(response) 
+                            console.log(response)
                             if(response.data.success){
                                 console.log("ok donne partie ")
                                 this.showQr=false
+                                location.reload()
                             }
                             else{
                                 console.log("erreur ;-(")
@@ -436,12 +437,12 @@
                     if(app.myMin < 0 ){
                         console.log("le temp est passe ",app.updatedCodeQr)
                         app.unActiveQrCode()
-                        
+
                     }
                 },1000
             )
         }
-        
+
     </script>
 </body>
 

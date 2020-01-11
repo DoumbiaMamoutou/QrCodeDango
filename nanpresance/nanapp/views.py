@@ -17,7 +17,16 @@ def login_page(request):
 def register(request):
     return render(request,'dashbord/register.html')
 @login_required(login_url='login')
+
 def index(request):
+    isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
+    qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
+    nbr_student=models.Profile.objects.all().count()
+    nbr_presant=models.Presence.objects.filter(status=True).count()
+    nbr_abs = models.Presence.objects.filter(jour=date.today(),status=False).count()
+    # if(isQr):
+    #     myQr=models.Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
+    #     list_presence =models.Presence.objects.filter(jour=date.today())
 
     try:
         isQr = models.Qrcode.objects.filter(jours=date.today(),status=True).exists() 
@@ -152,10 +161,22 @@ def index(request):
     
     return render(request,'dashbord/index.html',data)
 
+
 def scanner(request):
-    data={
-        'qr_message':'bonjour le monde'
-    }
+    isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
+    qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
+    if(isQr):
+        myQr=models.Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
+        list_presence =models.Presence.objects.filter(jour=date.today())
+            
+        data={
+            'myQr':myQr,
+            'isQr':True,
+        }
+    else:
+        data={
+        "isQr":False,
+        }
     return render(request,'dashbord/qrCode_page.html',data)
 
 
