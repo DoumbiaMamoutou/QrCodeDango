@@ -121,70 +121,70 @@ chart.render();
 
 /********** column chart ********/
 
-var options = {
+// var options = {
 
-  chart: {
-    height: 300,
-    type: 'bar',
-    toolbar: {
-      show: false,
-    },
-    foreColor: '#adb5bd'
-  },
-  plotOptions: {
-    bar: {
-      columnWidth: '14%',
-      endingShape: 'rounded'
-    }
-  },
-  dataLabels: {
-    enabled: false
-  },
+//   chart: {
+//     height: 300,
+//     type: 'bar',
+//     toolbar: {
+//       show: false,
+//     },
+//     foreColor: '#adb5bd'
+//   },
+//   plotOptions: {
+//     bar: {
+//       columnWidth: '14%',
+//       endingShape: 'rounded'
+//     }
+//   },
+//   dataLabels: {
+//     enabled: false
+//   },
 
-  series: [{
-    name: 'Series 1',
-    data: [42, 56, 40, 64, 26, 42, 56, 35, 62, 46, 32, 26]
-  }],
-  grid: {
-    yaxis: {
-      lines: {
-        show: false,
-      }
-    }
-  },
-  xaxis: {
-    labels: {
-      rotate: -90
-    },
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'],
-    title: {
-      text: 'Month',
-    }
-  },
-  colors: ['#e74c5e'],
+//   series: [{
+//     name: 'Series 1',
+//     data: [42, 56, 40, 64, 26, 42, 56, 35, 62, 46, 32, 26]
+//   }],
+//   grid: {
+//     yaxis: {
+//       lines: {
+//         show: false,
+//       }
+//     }
+//   },
+//   xaxis: {
+//     labels: {
+//       rotate: -90
+//     },
+//     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'],
+//     title: {
+//       text: 'Month',
+//     }
+//   },
+//   colors: ['#e74c5e'],
 
-  fill: {
-    type: 'gradient',
-    gradient: {
-      shade: 'dark',
-      type: "vertical",
-      shadeIntensity: 1,
-      gradientToColors: [ '#4090cb'],
-      inverseColors: true,
-      opacityFrom: 0.85,
-      opacityTo: 0.85,
-      stops: [0, 100, 100, 100]
-    },
-  },
+//   fill: {
+//     type: 'gradient',
+//     gradient: {
+//       shade: 'dark',
+//       type: "vertical",
+//       shadeIntensity: 1,
+//       gradientToColors: [ '#4090cb'],
+//       inverseColors: true,
+//       opacityFrom: 0.85,
+//       opacityTo: 0.85,
+//       stops: [0, 100, 100, 100]
+//     },
+//   },
 
-}
+// }
 
-var chart = new ApexCharts(
-  document.querySelector("#column-chart"),
-  options
-);
+// var chart = new ApexCharts(
+//   document.querySelector("#column-chart"),
+//   options
+// );
 
-chart.render();
+// chart.render();
 
 
 

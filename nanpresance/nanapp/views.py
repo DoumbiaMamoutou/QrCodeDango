@@ -18,45 +18,140 @@ def register(request):
     return render(request,'dashbord/register.html')
 @login_required(login_url='login')
 def index(request):
-    
-    isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
-    qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
-    nbr_student=models.Profile.objects.all().count()
-    nbr_presant=models.Presence.objects.filter(status=True).count()
-    nbr_abs = models.Presence.objects.filter(jour=date.today(),status=False).count()
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print(isQr)
-    if(isQr):
-        myQr=models.Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
-        list_presence =models.Presence.objects.filter(jour=date.today())
-        
-        data={
-            'myQr':myQr,
-            'isQr':True,
-            'liste_presence':list_presence,
-            'nbr_etudiant':nbr_student,
-            'nbr_presant':nbr_presant,
-            'nbr_abs':nbr_abs
-        }
-   
-    elif qrDesactive:
-        list_presence =models.Presence.objects.filter(jour=date.today())
 
-        data={
+    try:
+        
+
+        isQr = models.Qrcode.objects.filter(jours=date.today(),status=True).exists() 
+        
+        qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
+        
+        nbr_student=models.Profile.objects.all().count()
+        nbr_presant=models.Presence.objects.filter(status=True).count()
+        nbr_abs = models.Presence.objects.filter(jour=date.today(),status=False).count()
+        jan = models.Presence.objects.filter(created_at__month = 1 ,status=True).count()
+        feb = models.Presence.objects.filter(created_at__month = 2 ,status=True).count()
+        mars = models.Presence.objects.filter(created_at__month = 3 ,status=True).count()
+        avril = models.Presence.objects.filter(created_at__month = 4 ,status=True).count()
+        mai = models.Presence.objects.filter(created_at__month = 5 ,status=True).count()
+        juin = models.Presence.objects.filter(created_at__month = 6 ,status=True).count()
+        july = models.Presence.objects.filter(created_at__month = 7 ,status=True).count()
+        aout = models.Presence.objects.filter(created_at__month = 8 ,status=True).count()
+        sept = models.Presence.objects.filter(created_at__month = 9 ,status=True).count()
+        octobre = models.Presence.objects.filter(created_at__month = 10 ,status=True).count()
+        nov = models.Presence.objects.filter(created_at__month = 11 ,status=True).count()
+        dec = models.Presence.objects.filter(created_at__month = 12 ,status=True).count()
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print(isQr)  
+    except exception as e:
+        pass
+
+    if(isQr):
+        try:
+            
+            myQr=models.Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
+            list_presence =models.Presence.objects.filter(jour=date.today())
+            jan = models.Presence.objects.filter(created_at__month = 1 ,status=True).count()
+            feb = models.Presence.objects.filter(created_at__month = 2 ,status=True).count()
+            mars = models.Presence.objects.filter(created_at__month = 3 ,status=True).count()
+            avril = models.Presence.objects.filter(created_at__month = 4 ,status=True).count()
+            mai = models.Presence.objects.filter(created_at__month = 5 ,status=True).count()
+            juin = models.Presence.objects.filter(created_at__month = 6 ,status=True).count()
+            july = models.Presence.objects.filter(created_at__month = 7 ,status=True).count()
+            aout = models.Presence.objects.filter(created_at__month = 8 ,status=True).count()
+            sept = models.Presence.objects.filter(created_at__month = 9 ,status=True).count()
+            octobre = models.Presence.objects.filter(created_at__month = 10 ,status=True).count()
+            nov = models.Presence.objects.filter(created_at__month = 11 ,status=True).count()
+            dec = models.Presence.objects.filter(created_at__month = 12 ,status=True).count()
+  
+            data={
+                'myQr':myQr,
+                'isQr':True,
+                'liste_presence':list_presence,
+                'nbr_etudiant':nbr_student,
+                'nbr_presant':nbr_presant,
+                'nbr_abs':nbr_abs,
+                'jan':jan,
+                'feb':feb,
+                'mars':mars,
+                'avril':avril,
+                'mai':mai,
+                'juin':juin,
+                'july':july,
+                'aout':aout,
+                'sept':sept,
+                'october':octobre,
+                'nov':nov,
+                'dec':dec,
+                
+                
+            }
+        except exception as e:
+            pass
+
+    elif qrDesactive:
+        try:
+            jan = models.Presence.objects.filter(created_at__month = 1 ,status=True).count()
+            feb = models.Presence.objects.filter(created_at__month = 2 ,status=True).count()
+            mars = models.Presence.objects.filter(created_at__month = 3 ,status=True).count()
+            avril = models.Presence.objects.filter(created_at__month = 4 ,status=True).count()
+            mai = models.Presence.objects.filter(created_at__month = 5 ,status=True).count()
+            juin = models.Presence.objects.filter(created_at__month = 6 ,status=True).count()
+            july = models.Presence.objects.filter(created_at__month = 7 ,status=True).count()
+            aout = models.Presence.objects.filter(created_at__month = 8 ,status=True).count()
+            sept = models.Presence.objects.filter(created_at__month = 9 ,status=True).count()
+            octobre = models.Presence.objects.filter(created_at__month = 10 ,status=True).count()
+            nov = models.Presence.objects.filter(created_at__month = 11 ,status=True).count()
+            dec = models.Presence.objects.filter(created_at__month = 12 ,status=True).count()
+            
+            list_presence =models.Presence.objects.filter(jour=date.today())
+            
+            data={
             "isQr":False,
             'nbr_etudiant': nbr_student,
             'nbr_presant': nbr_presant,
             'liste_presence':list_presence,
-            'nbr_abs': nbr_abs
-        }
+            'nbr_abs': nbr_abs,
+                'jan':jan,
+                'feb':feb,
+                'mars':mars,
+                'avril':avril,
+                'mai':mai,
+                'juin':juin,
+                'july':july,
+                'aout':aout,
+                'sept':sept,
+                'october':octobre,
+                'nov':nov,
+                'dec':dec,
+            
+            }
+        except exception as e:
+            pass
+
+
     else:
         data={
         "isQr":False,
         'nbr_etudiant': nbr_student,
         'nbr_presant': nbr_presant,
-        'nbr_abs': nbr_abs
+        'nbr_abs': nbr_abs,
+        'jan':jan,
+        'feb':feb,
+        'mars':mars,
+        'avril':avril,
+        'mai':mai,
+        'juin':juin,
+        'july':july,
+        'aout':aout,
+        'sept':sept,
+        'october':octobre,
+        'nov':nov,
+        'dec':dec,
         }
-        # return render(request,'pages/index.html',data)
+        
+
+    
     return render(request,'dashbord/index.html',data)
 
 def scanner(request):
@@ -67,29 +162,37 @@ def scanner(request):
 
 
 def postLogin(request):
-    login_user = request.POST.get('login',False)
-    password = request.POST.get('pass',False)
- 
-    user = authenticate(request,username=login_user,password=password)
-    if user is not None:
-        login(request, user)
-        return redirect('index')
-    else:
-        data={
-            'error':True,
-            'login':login,
-            'pass':password
-        }
+    if request.method == "POST":
+        
+        login_user = request.POST.get('login',False)
+        password = request.POST.get('pass',False)
+    
+        user = authenticate(request,username=login_user,password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            data={
+                'error':True,
+                'login':login,
+                'pass':password
+            }
         return render(request,'pages/login.html',data)
     
 def postRegister(request):
-    login =request.POST.get('login',False)
-    email =request.POST.get('email',False)
-    password =request.POST.get('pass',False)
-    repass = request.POST.get('repass',False)
-    error=None
-    print("################### registe post ###############")
-    print(login,email,password)
+    if request.method == "POST":
+        
+        try:
+            login =request.POST.get('login',False)
+            email =request.POST.get('email',False)
+            password =request.POST.get('pass',False)
+            repass = request.POST.get('repass',False)
+        except exception as e:
+            pass
+
+        error=None
+        print("################### registe post ###############")
+        print(login,email,password)
 
     if(len(login) < 3):
         message='Login trop court '
@@ -97,7 +200,11 @@ def postRegister(request):
     if(password != repass):
         message ='Error password'
         error = True
-    verifU = User.objects.filter(username=login)
+    try:
+        verifU = User.objects.filter(username=login)
+    except :
+        pass
+
     print(verifU)
     if(verifU):
         error =True

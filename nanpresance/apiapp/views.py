@@ -46,10 +46,6 @@ def login(request):
         else:
             
             return HttpResponse(status=401)
-           
-
-
-
 
 @csrf_exempt
 def qrverif(request):
@@ -76,7 +72,6 @@ def qrverif(request):
                             try:
                           
                                 profile = Profile.objects.filter(user=user)[:1].get()
-                          
                                 presence = Presence.objects.filter(etudiant=profile,jour=jours).get()
                       
                                 if qrcode != code.titre_slug:
@@ -95,6 +90,7 @@ def qrverif(request):
                                 message =str(e)
                              
                         else:
+                            
                             return HttpResponse([] ,status=422)
                         
                     except :
