@@ -20,14 +20,10 @@ def register(request):
 def index(request):
 
     try:
-        
-
         isQr = models.Qrcode.objects.filter(jours=date.today(),status=True).exists() 
-        
         qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
-        
         nbr_student=models.Profile.objects.all().count()
-        nbr_presant=models.Presence.objects.filter(status=True).count()
+        nbr_presant=models.Presence.objects.filter(jour=date.today(),status=True).count()
         nbr_abs = models.Presence.objects.filter(jour=date.today(),status=False).count()
         jan = models.Presence.objects.filter(created_at__month = 1 ,status=True).count()
         feb = models.Presence.objects.filter(created_at__month = 2 ,status=True).count()
@@ -41,10 +37,12 @@ def index(request):
         octobre = models.Presence.objects.filter(created_at__month = 10 ,status=True).count()
         nov = models.Presence.objects.filter(created_at__month = 11 ,status=True).count()
         dec = models.Presence.objects.filter(created_at__month = 12 ,status=True).count()
+      
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(isQr)  
     except exception as e:
-        pass
+        print(str(e))
+        
 
     if(isQr):
         try:
@@ -63,7 +61,7 @@ def index(request):
             octobre = models.Presence.objects.filter(created_at__month = 10 ,status=True).count()
             nov = models.Presence.objects.filter(created_at__month = 11 ,status=True).count()
             dec = models.Presence.objects.filter(created_at__month = 12 ,status=True).count()
-  
+
             data={
                 'myQr':myQr,
                 'isQr':True,
@@ -112,18 +110,18 @@ def index(request):
             'nbr_presant': nbr_presant,
             'liste_presence':list_presence,
             'nbr_abs': nbr_abs,
-                'jan':jan,
-                'feb':feb,
-                'mars':mars,
-                'avril':avril,
-                'mai':mai,
-                'juin':juin,
-                'july':july,
-                'aout':aout,
-                'sept':sept,
-                'october':octobre,
-                'nov':nov,
-                'dec':dec,
+            'jan':jan,
+            'feb':feb,
+            'mars':mars,
+            'avril':avril,
+            'mai':mai,
+            'juin':juin,
+            'july':july,
+            'aout':aout,
+            'sept':sept,
+            'october':octobre,
+            'nov':nov,
+            'dec':dec,
             
             }
         except exception as e:
