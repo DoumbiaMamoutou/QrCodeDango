@@ -31,12 +31,17 @@
                                 <div class="text-center mt-4">
                                     <div class="mb-3">
                                         <a href="index.html" class="logo"><img src="/static/assets/images/logo-light.png" height="20" alt="logo"></a>
-                                        ${patrick}
+                                                <input type="hidden" id="isQr" value="{{isQr}}">
+                                        <p id="dateQr" height="20">${myMin}:${mySec}</p>
+
                                     </div>
                                 </div>
                                 {% if  isQr %}
                                 <div class="p-3"> 
                                         {% qr_from_text  myQr.titre_slug  size="m" image_format="png" error_correction="L" %}
+                                <input type="hidden" id="debutQr" value={{myQr.debut_heure_arrivee}}>
+                                            <input type="hidden" id="finQr" value={{myQr.fin_heure_arrivee}}>
+                                            <input type="hidden"  value={{myQr.jours}}>
                                 </div>
                                 {% endif %}
                                 {% if not isQr %}
