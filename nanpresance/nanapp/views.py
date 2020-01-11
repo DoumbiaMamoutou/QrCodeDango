@@ -320,7 +320,7 @@ def unActiveQr(request):
             'message':'Error Recupperation veriable '
         }
     try:
-        new_qr_code = models.Qrcode.objects.filter(jours=jours,created_by=request.user)[:1].get()
+        new_qr_code = models.Qrcode.objects.filter(jours=jours)[:1].get()
         new_qr_code.status=False
         new_qr_code.save()
         data={
