@@ -355,7 +355,7 @@
                 showQr:true,
                 hDebutQr:'',
                 hFinQr:'',
-                isQr:document.getElementById('isQr').value=='False'?false:true,
+                isQr:document.getElementById('isQr').value == 'False'?false:true,
                 updatedCodeQr:false
 
                 // dateToUpdate:document.getElementById('dateQr').innerHTML,
@@ -412,6 +412,7 @@
                             if(response.data.success){
                                 console.log("ok donne partie ")
                                 this.showQr=false
+                                location.reload()
                             }
                             else{
                                 console.log("erreur ;-(")
