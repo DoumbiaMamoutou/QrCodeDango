@@ -163,28 +163,28 @@ def index(request):
 
 
 def scanner(request):
-    data ={}
-    try:
-        isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
-        qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
-    except exception as e:
-        pass
+
+    isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
+    qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
+
 
     if(isQr):
         try:
             myQr=models.Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
             list_presence =models.Presence.objects.filter(jour=date.today())(0)
-            isQr=True
         except :
             pass
 
+            
+        data={
+            'myQr':myQr,
+            'isQr':True,
+        }
     else:
-        isQr = False
-
-    data = {
-        "isQr":isQr,
-        'myQr':myQr,
-    }
+        data={
+        "isQr":False,
+        }
+    
     return render(request,'dashbord/qrCode_page.html',data)
 
 
