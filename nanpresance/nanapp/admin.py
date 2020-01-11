@@ -42,7 +42,6 @@ class QrcodeAdmin(admin.ModelAdmin):
     list_per_page=50
     date_hierarchy=('created_at')
     ordering=['created_at']
-    list_editable=['status',]
 
 
     

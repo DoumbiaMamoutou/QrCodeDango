@@ -83,6 +83,7 @@ class Qrcode(models.Model):
 
     class Meta:
         """Meta definition for Exercice."""
+
         verbose_name = 'QrCode'
         verbose_name_plural = 'QrCodes'
         ordering = ('created_at',)
@@ -99,15 +100,9 @@ class Presence(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         unique_together = ('etudiant', 'qrcode',)
-        
-    # @property
-    # def prensant_par_jours():
-        
 
     def save(self, *args, **kwargs):
  
         super(Presence, self).save(*args, **kwargs)
         self.jour = date.today()
         super(Presence, self).save(*args, **kwargs)
-        
-    
