@@ -11,7 +11,10 @@ from django.utils.translation import ugettext_lazy as _
 
 # Create your views here.
 
-
+from datetime import date, timedelta
+dt = date.today() - timedelta(5)
+print('Current Date :',date.today())
+print('5 days before Current Date :',dt)
 def login_page(request):
 
     return render(request,'dashbord/login.html')
@@ -20,15 +23,6 @@ def register(request):
 @login_required(login_url='login')
 
 def index(request):
-
-    # isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
-    # qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
-    # nbr_student=models.Profile.objects.all().count()
-    # nbr_presant=models.Presence.objects.filter(status=True).count()
-    # nbr_abs = models.Presence.objects.filter(jour=date.today(),status=False).count()
-    # if(isQr):
-    #     myQr=models.Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
-    #     list_presence = models.Presence.objects.filter(jour=date.today())
 
     try:
         isQr = models.Qrcode.objects.filter(jours=date.today(),status=True).exists() 
