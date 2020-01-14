@@ -7,9 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from .import models
-
+from django.utils.translation import ugettext_lazy as _
 
 # Create your views here.
+
 
 def login_page(request):
 
@@ -19,19 +20,27 @@ def register(request):
 @login_required(login_url='login')
 
 def index(request):
-    isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
-    qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
-    nbr_student=models.Profile.objects.all().count()
-    nbr_presant=models.Presence.objects.filter(status=True).count()
-    nbr_abs = models.Presence.objects.filter(jour=date.today(),status=False).count()
+
+    # isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
+    # qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
+    # nbr_student=models.Profile.objects.all().count()
+    # nbr_presant=models.Presence.objects.filter(status=True).count()
+    # nbr_abs = models.Presence.objects.filter(jour=date.today(),status=False).count()
     # if(isQr):
     #     myQr=models.Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
-    #     list_presence =models.Presence.objects.filter(jour=date.today())
+    #     list_presence = models.Presence.objects.filter(jour=date.today())
 
     try:
         isQr = models.Qrcode.objects.filter(jours=date.today(),status=True).exists() 
         qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
-        nbr_student=models.Profile.objects.all().count()
+        todays = date.today()
+        date_of_days = _(todays.strftime("%A"))
+        groupe = models.Groupe.objects.filter(jour_passage__nom__startswith = date_of_days)
+
+        for g in groupe:
+            nom = g.nom
+        nbr_student = models.Profile.objects.filter(groupe__nom = nom).count()
+
         nbr_presant=models.Presence.objects.filter(jour=date.today(),status=True).count()
         nbr_abs = models.Presence.objects.filter(jour=date.today(),status=False).count()
         jan = models.Presence.objects.filter(created_at__month = 1 ,status=True).count()
@@ -90,6 +99,7 @@ def index(request):
                 'october':octobre,
                 'nov':nov,
                 'dec':dec,
+                'nom':nom
                 
                 
             }
@@ -131,6 +141,7 @@ def index(request):
             'october':octobre,
             'nov':nov,
             'dec':dec,
+            'nom':nom
             
             }
         except exception as e:
@@ -155,6 +166,7 @@ def index(request):
         'october':octobre,
         'nov':nov,
         'dec':dec,
+        'nom':nom
         }
         
 
@@ -163,15 +175,21 @@ def index(request):
 
 
 def scanner(request):
+    try:
+        
+        
+        isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
+        qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
+        
+    except exception as e:
+        pass
 
-    isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
-    qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
 
 
     if(isQr):
         try:
             myQr=models.Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
-            list_presence =models.Presence.objects.filter(jour=date.today())(0)
+            list_presence = models.Presence.objects.filter(jour=date.today())(0)
         except :
             pass
 
@@ -285,7 +303,14 @@ def addQrCode(request):
             new_qr_code = models.Qrcode(debut_heure_arrivee=hDebut,fin_heure_arrivee=hFin,created_by=request.user)
             new_qr_code.save()
             # ceration de la liste de presance
-            all_user = models.Profile.objects.filter(status=True)
+            todays = date.today()
+            date_of_days = _(todays.strftime("%A"))
+            groupe = models.Groupe.objects.filter(jour_passage__nom__startswith = date_of_days)
+
+            for g in groupe:
+                nom = g.nom
+            all_user = models.Profile.objects.filter(groupe__nom = nom)
+
             for u in all_user:
                 now = datetime.now()
                 current_time = now.strftime("%H:%M:%S")
@@ -293,7 +318,7 @@ def addQrCode(request):
                 my_list.save()
             data ={
                 'success':True,
-                'message':'code qr genere avec succe '
+                'message':'code qr genere avec succes '
             }
         except Exception as e:
             print("Error to adding Qr code ",str(e))
@@ -304,7 +329,7 @@ def addQrCode(request):
     else:
         data ={
             'success':False,
-            'message':'Qr code deja genere '
+            'message':'un Code Qr a déja été generer'
         }
 
     return JsonResponse(data,safe=True)
@@ -317,7 +342,7 @@ def unActiveQr(request):
         print("Error Recupperation veriable :",str(e))
         data={
             'success':False,
-            'message':'Error Recupperation veriable '
+            'message':'Error Recupperation variable '
         }
     try:
         new_qr_code = models.Qrcode.objects.filter(jours=jours)[:1].get()

@@ -6,11 +6,28 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-        <title>NaN - Presence | Not A Number</title>
+        <title>NaN - Présence | Not A Number</title>
         <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
         <meta content="Themesbrand" name="author" />
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
-
+        <!-- <link rel="shortcut icon" href="assets/images/favicon.ico"> -->
+        <!-- fivicon  NaN -->
+        <link rel="apple-touch-icon" sizes="57x57" href="/static/assets/images/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/static/assets/images/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/static/assets/images/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/static/assets/images/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/static/assets/images/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/static/assets/images/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/static/assets/images/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/static/assets/images/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/images/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/static/assets/images/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/assets/images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/static/assets/images/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/images/favicon-16x16.png">
+        <link rel="manifest" href="/static/assets/images/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
         <!-- datepicker -->
         <link href="/static/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
@@ -27,11 +44,58 @@
         <link href="/static/plugins/datatables/autoFill.bootstrap4.css" rel="stylesheet" type="text/css" />
         <link href="/static/plugins/datatables/keyTable.dataTables.min.css" rel="stylesheet" type="text/css" />
         <script scr="/static/js/my_vue.js"></script>
+        <style>
+            /* loader css start */
+            .loader {
+                position: fixed;
+                z-index: 99;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: black;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        
+            .loader > img {
+                width: 100px;
+            }
+        
+            .loader.hidden {
+                animation: fadeOut 1s;
+                animation-fill-mode: forwards;
+            }
+        
+            @keyframes fadeOut {
+                100% {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+            }
+        
+            .thumb {
+                height: 100px;
+                border: 1px solid black;
+                margin: 10px;
+            }
+            /* loader css end */
+            </style>
+            <script>
+                window.addEventListener("load", function () {
+                    const loader = document.querySelector(".loader");
+                    loader.className += " hidden"; // class "loader hidden"
+        
+                });
+           </script>
 
     </head>
 
     <body>
-
+        <div class="loader">
+            <img src="/static/assets/icons/Nan-logo-fast.gif" alt="Loading..." />
+        </div>
         <!-- Begin page -->
         <div id="wrapper">
             <!-- Top Bar Start -->
@@ -43,7 +107,7 @@
                             <img src="/static/assets/images/logo-nan.png" alt="" height="80%">
                         </span>
                         <span class="logo-sm">
-                            <img src="/static/assets/images/logo-sm.png" alt="" height="22">
+                            <img src="/static/assets/images/logo-nan.png" alt="" height="22">
                         </span>
                     </a>
                 </div>
@@ -380,8 +444,9 @@
                   <div id="app">
                     {% if  isQr %}
                     <div class="mb-4">
-                        <h5 class="font-14">Qr Code Du jour  ${hDebutQr}</h5>
+                        <!-- <h5 class="font-14">Qr Code Du jour  ${hDebutQr}</h5> -->
                         <div v-if="showQr" class="text-center">
+                            <h5 class="font-14">Temps De Scanage Restant  </h5>
                             <p id="dateQr">${myMin}:${mySec}</p>
                             {% qr_from_text  myQr.titre_slug  size="t" image_format="png" error_correction="L" %}
                             <input type="hidden" id="debutQr" value={{myQr.debut_heure_arrivee}}>
@@ -410,7 +475,7 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <button class="btn btn-primary btn-sm" @click.prevent="addQr">   Genere  </button>
+                            <button class="btn btn-primary btn-sm" @click.prevent="addQr">Génére</button>
                         </div>
                         <div v-if="showQr" class="text-center">
                             <img src="/static/img/undraw_security_o890.png" style="height: 150px;width: 200px;margin: 20px;text-align: center">
@@ -461,8 +526,6 @@
                     el:'#app',
                     data:{
                         dateQr:'',
-                        patrick:"patrick",
-                        QrCode:"bonjour 2020",
                         debutQr:document.getElementById('debutQr').value,
                         finQr:document.getElementById('finQr').value,
                         myMin:'',
@@ -477,6 +540,7 @@
                     delimiters:["${","}"],
                     mounted() {
                         this.chono()
+                     
                     },
                     methods:{
                         addQr:function(){
@@ -546,9 +610,11 @@
                             else{
                                 app.mySec --
                             }
-                            if(app.myMin < 0 ){
+                            if(app.myMin < 0  ){
                                 console.log("le temp est passe ",app.updatedCodeQr)
                                 app.unActiveQrCode()
+                                
+                                
                         
                             }
                         },1000

@@ -8,9 +8,11 @@ from nanapp.models import *
 import json
 
 import ipaddress
+from django.utils.translation import ugettext_lazy as _
+
+
+
 # Create your views here.
-
-
 
 # Nan = ipaddress.ip_network('192.168.50.0/24')
 # for x in Nan.hosts():
@@ -59,8 +61,8 @@ def qrverif(request):
             ip_adress = postdata['ip_adrrese']
         except :
             username = request.POST.get('username',None)
-            qrcode = request.POST.get('qrcode',None)
             ip_adress = request.POST.get('ip_adrrese',None)
+            qrcode = request.POST.get('qrcode',None)
         try:
             user = User.objects.filter(username=username)[:1].get()
             if user is not None:
@@ -70,10 +72,8 @@ def qrverif(request):
                         code = Qrcode.objects.filter(jours=jours)[:1].get()
                         if code.is_valid:
                             try:
-                          
                                 profile = Profile.objects.filter(user=user)[:1].get()
-                                presence = Presence.objects.filter(etudiant=profile,jour=jours).get()
-                      
+                                presence = Presence.objects.filter(etudiant=profile,jour=jours)[:1].get()
                                 if qrcode != code.titre_slug:
                                     status = False
                                     message = 'mauvais QR_CODE'
@@ -88,9 +88,9 @@ def qrverif(request):
                                     message = 'Vous avez deja marquer votre Presence' 
                             except Exception as e:
                                 message =str(e)
+                            
                              
                         else:
-                            
                             return HttpResponse([] ,status=422)
                         
                     except :
@@ -102,8 +102,10 @@ def qrverif(request):
                     
                 
         except Exception as e:
+            
             message=str(e)
             status=False
+            
     
  
     return JsonResponse({"status":status,"message":message},safe=True)

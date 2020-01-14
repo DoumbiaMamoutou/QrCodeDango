@@ -2,10 +2,11 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from . import models
 # Register your models here.
+
 @admin.register(models.Profile)
 
 class ProfilAdmin(admin.ModelAdmin):
-    list_display=('my_image','user','contacts','genre','pays','ville','birth_date','date_add','date_update')
+    list_display=('my_image','user','groupe','contacts','genre','birth_date','date_add','date_update')
     list_filter=('user','genre','status')
     search_fields=('user',)
     list_display_links=('my_image','user')
@@ -42,11 +43,32 @@ class QrcodeAdmin(admin.ModelAdmin):
     list_per_page=50
     date_hierarchy=('created_at')
     ordering=['created_at']
+    
+@admin.register(models.Groupe)
+class GroupeAdmin(admin.ModelAdmin):
+    list_display=('nom',)
+    list_filter=('nom',)
+    search_fields=('nom',)
+    list_display_links=('nom',)
+    list_per_page=50
+    date_hierarchy=('date_add')
+    ordering=['date_add']
+    filter_horizontal = ('jour_passage',)
+
+
+
+    
+@admin.register(models.Jour)
+class JourAdmin(admin.ModelAdmin):
+    list_display=('nom',)
+    list_filter=('nom',)
+    search_fields=('nom',)
+    list_display_links=('nom',)
+    list_per_page=50
 
 
     
 @admin.register(models.Presence)
-
 class PresenceAdmin(admin.ModelAdmin):
     list_display=('jour','etudiant','qrcode','heure_arrivee','heure_depart','status','created_at','updated_at')
     list_filter=('etudiant','heure_arrivee','heure_depart')

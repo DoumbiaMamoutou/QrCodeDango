@@ -10,18 +10,46 @@ import pytz
 
 
 # Create your models here.
+GROUPE_CHOICES = ( 
+    ("A", "A"), 
+    ("B", "B"), 
 
+) 
+#-------- ETUDIANT --------#
+
+class Jour(models.Model):
+    nom = models.CharField(max_length = 225)
+    
+    def __str__(self):
+        return str( self.nom)
+class Groupe(models.Model):
+    nom = models.CharField(
+            max_length = 20, 
+            choices = GROUPE_CHOICES, 
+            default = 'A',
+            unique = True
+    )
+    jour_passage = models.ManyToManyField(Jour, related_name="jour")
+    status = models.BooleanField(default=True)
+    date_add = models.DateTimeField(auto_now_add=True)
+    date_update = models.DateTimeField(auto_now=True)
+    
+
+
+
+
+    def __str__(self):
+        return str( self.nom)
 #-------- ETUDIANT --------#
 class Profile(models.Model):
     """Model definition for Profile."""
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile")
-    contacts = models.CharField(max_length=30, null=True)
-    genre = models.CharField(max_length=20, null=True)
-    pays = models.CharField(max_length=255, null=True)
-    ville = models.CharField(max_length=255, null=True)
-    birth_date = models.DateField(null=True)
+    contacts = models.CharField(max_length=30, null=True,  blank=True)
+    genre = models.CharField(max_length=20, null=True, blank=True)
+    groupe = models.ForeignKey(Groupe ,on_delete=models.CASCADE, related_name="user_groupe",null=True , blank=True )
+    birth_date = models.DateField(null=True, blank=True)
     images = models.ImageField(upload_to='images/avatar/', default="photo.png")
-    specialite = models.CharField(max_length=255,null=True)
+    specialite = models.CharField(max_length=255,null=True, blank=True)
     status = models.BooleanField(default=True)
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
