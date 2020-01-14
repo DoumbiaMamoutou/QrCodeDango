@@ -12,9 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 # Create your views here.
 
 from datetime import date, timedelta
-dt = date.today() - timedelta(5)
-print('Current Date :',date.today())
-print('5 days before Current Date :',dt)
+
 def login_page(request):
 
     return render(request,'dashbord/login.html')
@@ -30,7 +28,6 @@ def index(request):
         todays = date.today()
         date_of_days = _(todays.strftime("%A"))
         groupe = models.Groupe.objects.filter(jour_passage__nom__startswith = date_of_days)
-
         for g in groupe:
             nom = g.nom
         nbr_student = models.Profile.objects.filter(groupe__nom = nom).count()
@@ -276,7 +273,6 @@ def addQrCode(request):
         jours =post_data['jours']
         hDebut=post_data['heurDebut']
         hFin=post_data['heurFin']
-        
     except Exception as e:
         data={
             'success':False,

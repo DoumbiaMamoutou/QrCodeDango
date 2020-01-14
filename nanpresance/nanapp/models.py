@@ -105,7 +105,7 @@ class Qrcode(models.Model):
         super(Qrcode, self).save(*args, **kwargs)
         self.titre_slug = slugify(str(self.created_at) + str(self.id))
 
-        self.jours = date.today()
+        self.jours = date.today()    
         super(Qrcode, self).save(*args, **kwargs)
 
     class Meta:
