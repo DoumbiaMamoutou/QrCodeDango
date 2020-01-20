@@ -442,12 +442,13 @@
             <div class="slimscroll-menu">
                 <div class="px-4 pt-4">
                   <div id="app">
-                    {% if  isQr %}
+                    {% if  myQr.is_valid %}
+
                     <div class="mb-4">
                         <!-- <h5 class="font-14">Qr Code Du jour  ${hDebutQr}</h5> -->
                         <div v-if="showQr" class="text-center">
                             <h5 class="font-14">Temps De Scanage Restant  </h5>
-                            <p id="dateQr">${myMin}:${mySec}</p>
+                            <p id="dateQr">${myMin}min:${mySec}s</p>
                             {% qr_from_text  myQr.titre_slug  size="t" image_format="png" error_correction="L" %}
                             <input type="hidden" id="debutQr" value={{myQr.debut_heure_arrivee}}>
                             <input type="hidden" id="finQr" value={{myQr.fin_heure_arrivee}}>
@@ -460,7 +461,7 @@
                         </div>
                     </div>
                     {% endif %}
-                    {% if not isQr %}
+                    {% if not myQr.is_valid %}
                     <input type="hidden" id="debutQr" value={{myQr.debut_heure_arrivee}}>
                     <input type="hidden" id="finQr" value={{myQr.fin_heure_arrivee}}>
                     <input type="hidden"  value={{myQr.jours}}>
@@ -576,6 +577,7 @@
                             this.myMin = Math.floor(myChonoSec/60)
                             this.mySec = myChonoSec%60
                             console.log(this.myMin,this.mySec)
+
                         },
                         unActiveQrCode:function(){  
                             new_dat =new Date(this.dateToUpdate);
@@ -610,15 +612,15 @@
                             else{
                                 app.mySec --
                             }
-                            if(app.myMin < 0   ){
+                            if(app.myMin < 0 ){
+                                
                                 console.log("le temp est passe ",app.updatedCodeQr)
                                 app.unActiveQrCode()
-                                
-                                
-                        
                             }
                         },1000
                     )
+                    
+                    
                 }
         
         </script>
@@ -647,7 +649,7 @@
             
                 series: [{
                 name: 'Present ',
-                data: ['{{jan}}', '{{feb}}','{{mars}}','{{avril}}', '{{mai}}','{{juin}}', '{{july}}', '{{aout}}', '{{sept}}','{{october}}','{{nov}}', '{{dec}}']
+                data: ['{{jour7}}', '{{jour6}}','{{jour5}}','{{jour4}}', '{{jour3}}','{{jour2}}', '{{jour1}}', '{{jourj}}',]
                 }],
                 grid: {
                 yaxis: {
@@ -661,9 +663,9 @@
                 labels: {
                     rotate: -90
                 },
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'],
+                categories: ['{{nom7}}', '{{nom6}}','{{nom5}}','{{nom4}}', '{{nom3}}','{{nom2}}', '{{nom1}}', '{{nomj}}',],
                 title: {
-                    text: 'Nan',
+                    text: 'Nan Presence',
                 }
                 },
                 colors: ['#e74c5e'],

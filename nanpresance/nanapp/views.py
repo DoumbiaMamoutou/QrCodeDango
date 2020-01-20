@@ -13,124 +13,101 @@ from django.utils.translation import ugettext_lazy as _
 
 from datetime import date, timedelta
 import calendar
-dt = date.today() - timedelta(7)
-dti = date.today() - timedelta(7)
-print('Current Date :',date.today())
-print('5 days before Current Date :',dt)
-jan = models.Presence.objects.filter(jour__range=[dti, date.today()] ,status=True)
-feb = models.Presence.objects.filter(jour = dti ,status=True).count()
-print(jan,'------------------------------------',feb)
-label = []
-dataset = []
-for i in jan :
-    print(models.Presence.objects.filter(jour = i.jour ,status=True))
-    dataset.append(models.Presence.objects.filter(jour = i.jour ,status=True).count())
-    my_date = datetime.strptime(i.jour, "%Y-%m-%d")
-    print(my_date)
-    print('Day of Month:', my_date.day)
-    print('Day of Week (name): ', _(calendar.day_name[my_date.weekday()]))
-    label.append(_(calendar.day_name[my_date.weekday()]))
+# dt = date.today() - timedelta(7)
+# dti = date.today() - timedelta(6)
+# print(dti)
+
+# print('Current Date :',date.today())
+# print('5 days before Current Date :',dt)
+# jan = models.Presence.objects.filter(jour__range=[dti, date.today()] ,status=True)
+# feb = models.Presence.objects.filter(jour = dti ,status=True).count()
+# print(jan,'------------------------------------',feb)
+# label = []
+# dataset = []
+# for i in jan :
+#     print(models.Presence.objects.filter(jour = i.jour ,status=True))
+#     dataset.append(models.Presence.objects.filter(jour = i.jour ,status=True).count())
+#     my_date = datetime.strptime(i.jour, "%Y-%m-%d")
+#     print(my_date)
+#     print('Day of Month:', my_date.day)
+#     print('Day of Week (name): ', _(calendar.day_name[my_date.weekday()]))
+#     label.append(_(calendar.day_name[my_date.weekday()]))
     
-print(dataset)
-print(label)
+# print(dataset)
+# print(label)
 
     
 def login_page(request):
-
     return render(request,'dashbord/login.html')
+
 def register(request):
     return render(request,'dashbord/register.html')
+
 @login_required(login_url='login')
 
 def index(request):
+    nbr_student,nbr_presant,nbr_abs,dataset,label,nom ='','','',[],[],''
+    try:
+        ############ code for chartjs dinamise graphe  ##############
+        dates7 = date.today() - timedelta(7)
+        jour7 = models.Presence.objects.filter(jour = dates7 ,status=True).count()
+        nom7= _(calendar.day_name[dates7.weekday()])  
+            
+        dates6= date.today() - timedelta(6)
+        jour6 = models.Presence.objects.filter(jour = dates6 ,status=True).count()
+        nom6= _(calendar.day_name[dates6.weekday()])                 
+            
+        dates5 = date.today() - timedelta(5)
+        jour5 = models.Presence.objects.filter(jour = dates5 ,status=True).count()
+        nom5= _(calendar.day_name[dates5.weekday()])
+            
+        dates4= date.today() - timedelta(4) 
+        jour4 = models.Presence.objects.filter(jour = dates4 ,status=True).count()
+        nom4= _(calendar.day_name[dates4.weekday()])
+        
+        dates3= date.today() - timedelta(3)
+        jour3 = models.Presence.objects.filter(jour = date.today() - timedelta(3) ,status=True).count()
+        nom3= _(calendar.day_name[dates3.weekday()])
+            
+        dates2 = date.today() - timedelta(2)
+        jour2 = models.Presence.objects.filter(jour = dates2 ,status=True).count()
+        nom2= _(calendar.day_name[dates2.weekday()])
+        
+        jour1 = models.Presence.objects.filter(jour = date.today() - timedelta(1) ,status=True).count()
+        dates1= date.today() - timedelta(1)
+        nom1 = _(calendar.day_name[dates1.weekday()])   
+
+        jourj = models.Presence.objects.filter(jour = date.today() ,status=True).count()
+        nomj= _(calendar.day_name[date.today().weekday()])
+
+    
+    except :
+        pass
+
 
     try:
         isQr = models.Qrcode.objects.filter(jours=date.today(),status=True).exists() 
         qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
         todays = date.today()
         date_of_days = _(todays.strftime("%A"))
-        groupe = models.Groupe.objects.filter(jour_passage__nom__startswith = date_of_days)
+        groupe = models.Groupe.objects.filter(jour_passage__nom = date_of_days)
         for g in groupe:
             nom = g.nom
         nbr_student = models.Profile.objects.filter(groupe__nom = nom).count()
         nbr_presant=models.Presence.objects.filter(jour=date.today(),status=True).count()
         nbr_abs = models.Presence.objects.filter(jour=date.today(),status=False).count()
-        dt = date.today() + timedelta(4)
-        dti = date.today() - timedelta(7)
-        print('Current Date :',date.today())
-        print('5 days before Current Date :',dt)
-        jan = models.Presence.objects.filter(jour__range=[dti, date.today()] ,status=True)
-        print(jan,'------------------------------------')
-        label = []
-        dataset = []
-        for i in jan :
-            print(models.Presence.objects.filter(jour = i.jour ,status=True).count())
-            dataset.append(str(models.Presence.objects.filter(jour = i.jour ,status=True).count()))
-            my_date = datetime.strptime(i.jour, "%Y-%m-%d")
-            print(my_date)
-            print('Day of Month:', my_date.day)
-            print('Day of Week (name): ', _(calendar.day_name[my_date.weekday()]))
-            label.append(_(calendar.day_name[my_date.weekday()]))
-            
-        print(dataset)
-        print(label)
-
-        # jan = models.Presence.objects.filter(created_at__month = 1 ,status=True).count()
-        # feb = models.Presence.objects.filter(created_at__month = 2 ,status=True).count()
-        # mars = models.Presence.objects.filter(created_at__month = 3 ,status=True).count()
-        # avril = models.Presence.objects.filter(created_at__month = 4 ,status=True).count()
-        # mai = models.Presence.objects.filter(created_at__month = 5 ,status=True).count()
-        # juin = models.Presence.objects.filter(created_at__month = 6 ,status=True).count()
-        # july = models.Presence.objects.filter(created_at__month = 7 ,status=True).count()
-        # aout = models.Presence.objects.filter(created_at__month = 8 ,status=True).count()
-        # sept = models.Presence.objects.filter(created_at__month = 9 ,status=True).count()
-        # octobre = models.Presence.objects.filter(created_at__month = 10 ,status=True).count()
-        # nov = models.Presence.objects.filter(created_at__month = 11 ,status=True).count()
-        # dec = models.Presence.objects.filter(created_at__month = 12 ,status=True).count()
-      
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        print(isQr)  
-    except exception as e:
-        print(str(e))
+       
+        # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        # print(isQr)  
+    except :
+        pass
         
 
     if(isQr):
         try:
             
             myQr=models.Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
-            list_presence =models.Presence.objects.filter(jour=date.today())
-            dt = date.today() + timedelta(4)
-            dti = date.today() - timedelta(7)
-            print('Current Date :',date.today())
-            print('5 days before Current Date :',dt)
-            jan = models.Presence.objects.filter(jour__range=[dti, date.today()] ,status=True)
-            print(jan,'------------------------------------')
-            label = []
-            dataset = []
-            for i in jan :
-                print(models.Presence.objects.filter(jour = i.jour ,status=True).count())
-                dataset.append(str(models.Presence.objects.filter(jour = i.jour ,status=True).count()))
-                my_date = datetime.strptime(i.jour, "%Y-%m-%d")
-                print(my_date)
-                print('Day of Month:', my_date.day)
-                print('Day of Week (name): ', _(calendar.day_name[my_date.weekday()]))
-                label.append(_(calendar.day_name[my_date.weekday()]))
-                
-            print(dataset)
-            print(label)
-
-            # jan = models.Presence.objects.filter(created_at__month = 1 ,status=True).count()
-            # feb = models.Presence.objects.filter(created_at__month = 2 ,status=True).count()
-            # mars = models.Presence.objects.filter(created_at__month = 3 ,status=True).count()
-            # avril = models.Presence.objects.filter(created_at__month = 4 ,status=True).count()
-            # mai = models.Presence.objects.filter(created_at__month = 5 ,status=True).count()
-            # juin = models.Presence.objects.filter(created_at__month = 6 ,status=True).count()
-            # july = models.Presence.objects.filter(created_at__month = 7 ,status=True).count()
-            # aout = models.Presence.objects.filter(created_at__month = 8 ,status=True).count()
-            # sept = models.Presence.objects.filter(created_at__month = 9 ,status=True).count()
-            # octobre = models.Presence.objects.filter(created_at__month = 10 ,status=True).count()
-            # nov = models.Presence.objects.filter(created_at__month = 11 ,status=True).count()
-            # dec = models.Presence.objects.filter(created_at__month = 12 ,status=True).count()
+            list_presence = models.Presence.objects.filter(jour=date.today())
 
             data={
                 'myQr':myQr,
@@ -139,19 +116,23 @@ def index(request):
                 'nbr_etudiant':nbr_student,
                 'nbr_presant':nbr_presant,
                 'nbr_abs':nbr_abs,
-                'data':dataset,
-                'lab':label,
-                # 'mars':mars,
-                # 'avril':avril,
-                # 'mai':mai,
-                # 'juin':juin,
-                # 'july':july,
-                # 'aout':aout,
-                # 'sept':sept,
-                # 'october':octobre,
-                # 'nov':nov,
-                # 'dec':dec,
-                'nom':nom
+                'nom':nom,
+                'nom1':nom1,
+                'jour1':jour1,
+                'nom2':nom2,
+                'jour2':jour2,
+                'nom3':nom3,
+                'jour3':jour3,
+                'nom4':nom4,
+                'jour4':jour4,
+                'nom5':nom5,
+                'jour5':jour5,
+                'nom6':nom6,
+                'jour6':jour6,
+                'nom7':nom7,
+                'jour7':jour7,
+                'nomj':nomj,
+                'jourj':jourj,
                 
                 
             }
@@ -160,39 +141,7 @@ def index(request):
 
     elif qrDesactive:
         try:
-            # jan = models.Presence.objects.filter(created_at__month = 1 ,status=True).count()
-            # feb = models.Presence.objects.filter(created_at__month = 2 ,status=True).count()
-            # mars = models.Presence.objects.filter(created_at__month = 3 ,status=True).count()
-            # avril = models.Presence.objects.filter(created_at__month = 4 ,status=True).count()
-            # mai = models.Presence.objects.filter(created_at__month = 5 ,status=True).count()
-            # juin = models.Presence.objects.filter(created_at__month = 6 ,status=True).count()
-            # july = models.Presence.objects.filter(created_at__month = 7 ,status=True).count()
-            # aout = models.Presence.objects.filter(created_at__month = 8 ,status=True).count()
-            # sept = models.Presence.objects.filter(created_at__month = 9 ,status=True).count()
-            # octobre = models.Presence.objects.filter(created_at__month = 10 ,status=True).count()
-            # nov = models.Presence.objects.filter(created_at__month = 11 ,status=True).count()
-            # dec = models.Presence.objects.filter(created_at__month = 12 ,status=True).count()
-            
             list_presence =models.Presence.objects.filter(jour=date.today())
-            dt = date.today() + timedelta(4)
-            dti = date.today() - timedelta(7)
-            print('Current Date :',date.today())
-            print('5 days before Current Date :',dt)
-            jan = models.Presence.objects.filter(jour__range=[dti, date.today()] ,status=True)
-            print(jan,'------------------------------------')
-            label = []
-            dataset = []
-            for i in jan :
-                print(models.Presence.objects.filter(jour = i.jour ,status=True).count())
-                dataset.append(str(models.Presence.objects.filter(jour = i.jour ,status=True).count()))
-                my_date = datetime.strptime(i.jour, "%Y-%m-%d")
-                print(my_date)
-                print('Day of Month:', my_date.day)
-                print('Day of Week (name): ', _(calendar.day_name[my_date.weekday()]))
-                label.append(_(calendar.day_name[my_date.weekday()]))
-                
-            print(dataset)
-            print(label)
             
             data={
             "isQr":False,
@@ -200,19 +149,23 @@ def index(request):
             'nbr_presant': nbr_presant,
             'liste_presence':list_presence,
             'nbr_abs': nbr_abs,
-            'data':dataset,
-            'lab':label,
-            # 'mars':mars,
-            # 'avril':avril,
-            # 'mai':mai,
-            # 'juin':juin,
-            # 'july':july,
-            # 'aout':aout,
-            # 'sept':sept,
-            # 'october':octobre,
-            # 'nov':nov,
-            # 'dec':dec,
-            'nom':nom
+            'nom':nom,
+            'nom1':nom1,
+            'jour1':jour1,
+            'nom2':nom2,
+            'jour2':jour2,
+            'nom3':nom3,
+            'jour3':jour3,
+            'nom4':nom4,
+            'jour4':jour4,
+            'nom5':nom5,
+            'jour5':jour5,
+            'nom6':nom6,
+            'jour6':jour6,
+            'nom7':nom7,
+            'jour7':jour7,
+            'nomj':nomj,
+            'jourj':jourj,
             
             }
         except exception as e:
@@ -225,46 +178,42 @@ def index(request):
         'nbr_etudiant': nbr_student,
         'nbr_presant': nbr_presant,
         'nbr_abs': nbr_abs,
-        'data':dataset,
-        'lab':label,
-        # 'mars':mars,
-        # 'avril':avril,
-        # 'mai':mai,
-        # 'juin':juin,
-        # 'july':july,
-        # 'aout':aout,
-        # 'sept':sept,
-        # 'october':octobre,
-        # 'nov':nov,
-        # 'dec':dec,
-        'nom':nom
+        'nom':nom,
+        'nom1':nom1,
+        'jour1':jour1,
+        'nom2':nom2,
+        'jour2':jour2,
+        'nom3':nom3,
+        'jour3':jour3,
+        'nom4':nom4,
+        'jour4':jour4,
+        'nom5':nom5,
+        'jour5':jour5,
+        'nom6':nom6,
+        'jour6':jour6,
+        'nom7':nom7,
+        'jour7':jour7,
+        'nomj':nomj,
+        'jourj':jourj,
         }
-        
 
-    
     return render(request,'dashbord/index.html',data)
-
 
 def scanner(request):
     try:
-        
-        
+
         isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
         qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
-        
     except exception as e:
         pass
-
-
-
+    
     if(isQr):
         try:
             myQr=models.Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
             list_presence = models.Presence.objects.filter(jour=date.today())(0)
         except :
             pass
-
-            
+ 
         data={
             'myQr':myQr,
             'isQr':True,
