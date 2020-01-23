@@ -80,7 +80,7 @@ class Qrcode(models.Model):
     created_by = models.ForeignKey(User,on_delete=models.CASCADE, null=True,related_name= 'addby')
     debut_heure_arrivee = models.TimeField(null=True, default='08:00')
     fin_heure_arrivee = models.TimeField(null=True, default='10:00')
-    titre_slug = models.SlugField(max_length=255,editable=False,null=True,unique=True)
+    titre_slug = models.SlugField(max_length=255,null=True,unique=True)
     status =  models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -103,7 +103,7 @@ class Qrcode(models.Model):
     def save(self, *args, **kwargs):
             
         super(Qrcode, self).save(*args, **kwargs)
-        self.titre_slug = slugify(str(self.created_at) + str(self.id))
+
 
         self.jours = date.today()    
         super(Qrcode, self).save(*args, **kwargs)

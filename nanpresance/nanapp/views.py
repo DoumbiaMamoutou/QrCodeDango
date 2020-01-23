@@ -8,7 +8,7 @@ from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from .import models
 from django.utils.translation import ugettext_lazy as _
-
+from .autotast.generateqrcode import generateqr
 # Create your views here.
 
 from datetime import date, timedelta
@@ -318,8 +318,9 @@ def addQrCode(request):
         print("Exection Qr Existe ",str(e))
     
     if not qrExist:
-        try:
-            new_qr_code = models.Qrcode(debut_heure_arrivee=hDebut,fin_heure_arrivee=hFin,created_by=request.user)
+        try: 
+            qr = generateqr()
+            new_qr_code = models.Qrcode(debut_heure_arrivee=hDebut,fin_heure_arrivee=hFin,created_by=request.user,titre_slug=qr)
             new_qr_code.save()
             # ceration de la liste de presance
             todays = date.today()

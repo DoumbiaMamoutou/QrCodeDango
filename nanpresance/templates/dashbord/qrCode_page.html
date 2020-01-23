@@ -104,7 +104,8 @@
                                 {% if  isQr %}
                                     {% if myQr.is_valid %}
                                         <div class="mb-3">
-                                        <h2 id="dateQr" style="text-align: center;" >${myMin}:${mySec}</h2>
+                                        <h2 id="dateQr" style="text-align: center;" >${myMin}min:${mySec}s </h2>
+                                        <h3 style="text-align: center;"> avant que le codeQr ne disparaisse</h3>
                                     </div>
                                 <div class="p-3"> 
                                         {% qr_from_text  myQr.titre_slug  size="m" image_format="png" error_correction="L" %}
