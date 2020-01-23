@@ -44,7 +44,7 @@
                     Login ou mot de passe Incorecte ;-(
                 </div>
                 {% endif %}
-                <form class="user" method="POST" action="{% url 'postLogin' %}">
+                <form class="user" method="POST">
                 {% csrf_token %}
                     <div class="form-group">
                     <input type="text" class="form-control form-control-user" id="exampleInputEmail" name="login" aria-describedby="emailHelp" placeholder="Enter Login ...">
@@ -59,7 +59,7 @@
                     </div>
                     </div>
                     <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
-                    </input>
+                 
                    
                    
                 </form>

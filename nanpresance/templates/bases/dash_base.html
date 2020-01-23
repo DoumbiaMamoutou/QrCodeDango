@@ -200,7 +200,6 @@
                                         </div>
                                     </div>
                                 </li>
-
                     </ul>
 
                     <ul class="list-inline menu-left mb-0">
@@ -245,7 +244,11 @@
                                     <i class="ion ion-md-speedometer"></i><span class="badge badge-success badge-pill float-right"></span> <span> Dashboard </span>
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="{% url 'scanner' %}" >
+                                    <i class="ion ion-md-speedometer"></i><span class="badge badge-success badge-pill float-right"></span> <span> Scanner Page </span>
+                                </a>
+                            </li>
                             <!-- <li class="menu-title">Apps</li> -->
                             
                             <!-- <li>
@@ -466,7 +469,10 @@
                     <input type="hidden" id="finQr" value={{myQr.fin_heure_arrivee}}>
                     <input type="hidden"  value={{myQr.jours}}>
                     <div class="md-4">
-                        <h5 class="font-14">Genere le Code Qr du jour </h5>
+                        <h5 v-if="showre"  class="font-14"> Géneré le code Qr </h5>
+                        <div v-if="!showre" class="alert alert-danger" role="alert">
+                            ${ re } 
+                          </div>
                         <div class="form-group row">
                             <div class="col-sm">
                                 <input class="form-control" type="time" v-model="hDebutQr" value="13:45:00" id="example-time-input">
@@ -535,7 +541,9 @@
                         hDebutQr:'',
                         hFinQr:'',
                         isQr:document.getElementById('isQr').value=='False'?false:true,
-                        updatedCodeQr:false
+                        updatedCodeQr:false,
+                        re : '',
+                        showre:true,
                         // dateToUpdate:document.getElementById('dateQr').innerHTML,
                     },
                     delimiters:["${","}"],
@@ -560,7 +568,9 @@
                                         location.reload()
                                     }
                                     else{
-                                        console.log("erreur ;-(")
+                                        console.log(my_r.message)
+                                        this.showre = false
+                                        this.re = my_r.message
                                     }
                                 })
                                 .catch((err) => {

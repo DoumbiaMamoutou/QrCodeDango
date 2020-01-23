@@ -50,6 +50,7 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     images = models.ImageField(upload_to='images/avatar/', default="photo.png")
     specialite = models.CharField(max_length=255,null=True, blank=True)
+    is_admin = models.BooleanField(default=False,null=True)
     status = models.BooleanField(default=True)
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)

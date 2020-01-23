@@ -6,7 +6,7 @@ from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('',views.index,name='index'),
-    path('login',views.login_page,name='login'),
+    path('accounts/login/',views.login_page,name='login'),
     path('postLogin',views.postLogin,name='postLogin'),
     path('register',views.register,name='register'),
     path('postRegister',views.postRegister,name='postRegister'),
@@ -14,7 +14,7 @@ urlpatterns = [
     path('addQrCode',views.addQrCode,name='addQrCode'),
     path('unActiveQr',views.unActiveQr,name='unActiveQr'),
     path('logout',views.logout_page,name='logout'),
-    path('accounts/login/',views.logingraphql,name='logingraphql'),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

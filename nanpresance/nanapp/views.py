@@ -49,6 +49,7 @@ def index(request):
     nbr_student,nbr_presant,nbr_abs,dataset,label,nom ='','','',[],[],''
     try:
         ############ code for chartjs dinamise graphe  ##############
+        
         dates7 = date.today() - timedelta(7)
         jour7 = models.Presence.objects.filter(jour = dates7 ,status=True).count()
         nom7= _(calendar.day_name[dates7.weekday()])  
@@ -198,10 +199,10 @@ def index(request):
 
     return render(request,'dashbord/index.html',data)
 
+@login_required(login_url='login')
 def scanner(request):
-    jourr = date.today()
-    try:
 
+    try:
         isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
         qrDesactive = models.Qrcode.objects.filter(jours=date.today(),status=False).exists()
     except exception as e:
@@ -217,12 +218,12 @@ def scanner(request):
         data={
             'myQr':myQr,
             'isQr':True,
-            'jour':jourr  
+  
         }
     else:
         data={
         "isQr":False,
-        'jour':jourr
+ 
         }
     
     return render(request,'dashbord/qrCode_page.html',data)
@@ -235,16 +236,17 @@ def postLogin(request):
         password = request.POST.get('pass',False)
     
         user = authenticate(request,username=login_user,password=password)
-        if user is not None:
+        if user is not None and  user.user_profile.is_admin :
             login(request, user)
             return redirect('index')
         else:
+           
             data={
                 'error':True,
                 'login':login,
                 'pass':password
             }
-        return render(request,'pages/login.html',data)
+        return render(request,'dashbord/login.html',data)
     
 def postRegister(request):
     if request.method == "POST":
@@ -310,49 +312,56 @@ def addQrCode(request):
             'message':'Error de convertion des variables'
         }
         print("Error de recuperration des variables:",str(e))
-
-    try:
-        my_user =models.Qrcode.objects.filter(jours=date.today())[:1].get()
-        qrExist=True
-        
-    except Exception as e:
-        qrExist=False
-        print("Exection Qr Existe ",str(e))
     
-    if not qrExist:
-        try: 
-            qr = generateqr()
-            new_qr_code = models.Qrcode(debut_heure_arrivee=hDebut,fin_heure_arrivee=hFin,created_by=request.user,titre_slug=qr)
-            new_qr_code.save()
-            # ceration de la liste de presance
-            todays = date.today()
-            date_of_days = _(todays.strftime("%A"))
-            groupe = models.Groupe.objects.filter(jour_passage__nom__startswith = date_of_days)
+    if hDebut > hFin:
+        data={
+            'success':False,
+            'message':"Verifier l'heure de debut et l'heure de fin "
+        }
+    else:
 
-            for g in groupe:
-                nom = g.nom
-            all_user = models.Profile.objects.filter(groupe__nom = nom)
-
-            for u in all_user:
-                now = datetime.now()
-                current_time = now.strftime("%H:%M:%S")
-                my_list = models.Presence(jour=date.today(),etudiant=u,qrcode=new_qr_code,heure_arrivee=current_time)
-                my_list.save()
-            data ={
-                'success':True,
-                'message':'code qr genere avec succes '
-            }
+        try:
+            my_user =models.Qrcode.objects.filter(jours=date.today())[:1].get()
+            qrExist=True
+            
         except Exception as e:
-            print("Error to adding Qr code ",str(e))
+            qrExist=False
+            print("Exection Qr Existe ",str(e))
+        
+        if not qrExist:
+            try: 
+                qr = generateqr()
+                new_qr_code = models.Qrcode(debut_heure_arrivee=hDebut,fin_heure_arrivee=hFin,created_by=request.user,titre_slug=qr)
+                new_qr_code.save()
+                # ceration de la liste de presance
+                todays = date.today()
+                date_of_days = _(todays.strftime("%A"))
+                groupe = models.Groupe.objects.filter(jour_passage__nom__startswith = date_of_days)
+
+                for g in groupe:
+                    nom = g.nom
+                all_user = models.Profile.objects.filter(groupe__nom = nom)
+
+                for u in all_user:
+                    now = datetime.now()
+                    current_time = now.strftime("%H:%M:%S")
+                    my_list = models.Presence(jour=date.today(),etudiant=u,qrcode=new_qr_code,heure_arrivee=current_time)
+                    my_list.save()
+                data ={
+                    'success':True,
+                    'message':'code qr genere avec succes'
+                }
+            except Exception as e:
+                print("Error to adding Qr code ",str(e))
+                data ={
+                    'success':False,
+                    'message':'Error dans creation du code Qr '
+                }
+        else:
             data ={
                 'success':False,
-                'message':'Error dans creation du code Qr '
+                'message':'un Code Qr a déja été generer'
             }
-    else:
-        data ={
-            'success':False,
-            'message':'un Code Qr a déja été generer'
-        }
 
     return JsonResponse(data,safe=True)
 
@@ -381,8 +390,7 @@ def unActiveQr(request):
             'message':'Error to find CodeQr '
         }
     return JsonResponse(data,safe=True)
-def logingraphql(request):
-    return render(request,'dashbord/logingraphql.html')
+
 def logout_page(request):
     logout(request)
     return redirect('login')

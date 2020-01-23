@@ -106,8 +106,6 @@
                                         <div class="mb-3">
                                         <h2 id="dateQr" style="text-align: center;" >${myMin}min:${mySec}s </h2>
                                         <h3 style="text-align: center;"> avant que le codeQr ne disparaisse</h3>
-                                        <h3 style="text-align: center;"> ${resultat}</h3>
-                                        
                                     </div>
                                 <div class="p-3" id="hans"> 
                                     
@@ -252,10 +250,10 @@
     </script>
     <script type="text/javascript"> 
         setInterval(function(){
-          
-            app.getqr('{{jour}}')
-            console.log('gooooooooooooooooooooooooooooooooooooooooooooooooooooo')
-            location.reload();
+            location=''
+            //app.getqr('{{jour}}')
+           // console.log('gooooooooooooooooooooooooooooooooooooooooooooooooooooo')
+    
           },60000)
       </script>
     </body>
