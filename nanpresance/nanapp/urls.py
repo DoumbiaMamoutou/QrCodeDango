@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.urls import path
-from . import views;
 from . import views
 from django.conf import  settings
 from django.contrib.staticfiles.urls import static
@@ -15,6 +14,7 @@ urlpatterns = [
     path('addQrCode',views.addQrCode,name='addQrCode'),
     path('unActiveQr',views.unActiveQr,name='unActiveQr'),
     path('logout',views.logout_page,name='logout'),
+    path('accounts/login/',views.logingraphql,name='logingraphql'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

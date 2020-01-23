@@ -17,10 +17,19 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
+from graphene_django.views import GraphQLView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from graphene_django.views import GraphQLView
+
+
+class PrivateGraphQLView(LoginRequiredMixin, GraphQLView):
+    pass
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('nanapp.urls')),
-    path('api/',include('apiapp.urls'))
+    path('api/',include('apiapp.urls')),
+    path("graphql", PrivateGraphQLView.as_view(graphiql=True)),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

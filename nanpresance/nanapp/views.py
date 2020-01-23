@@ -97,8 +97,7 @@ def index(request):
         nbr_presant=models.Presence.objects.filter(jour=date.today(),status=True).count()
         nbr_abs = models.Presence.objects.filter(jour=date.today(),status=False).count()
        
-        # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        # print(isQr)  
+
     except :
         pass
         
@@ -200,6 +199,7 @@ def index(request):
     return render(request,'dashbord/index.html',data)
 
 def scanner(request):
+    jourr = date.today()
     try:
 
         isQr =models.Qrcode.objects.filter(jours=date.today(),status=True).exists()
@@ -217,10 +217,12 @@ def scanner(request):
         data={
             'myQr':myQr,
             'isQr':True,
+            'jour':jourr  
         }
     else:
         data={
         "isQr":False,
+        'jour':jourr
         }
     
     return render(request,'dashbord/qrCode_page.html',data)
@@ -379,6 +381,8 @@ def unActiveQr(request):
             'message':'Error to find CodeQr '
         }
     return JsonResponse(data,safe=True)
+def logingraphql(request):
+    return render(request,'dashbord/logingraphql.html')
 def logout_page(request):
     logout(request)
     return redirect('login')

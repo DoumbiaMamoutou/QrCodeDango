@@ -37,11 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'graphene_django',
     'qr_code',
     'nanapp.apps.NanappConfig',
     'rest_framework',
     'apiapp.apps.ApiappConfig',
     'corsheaders' ,
+   
 ]
 
 MIDDLEWARE = [
@@ -62,7 +64,9 @@ CORS_ORIGIN_WHITELIST  =  [
 ]
 
 ROOT_URLCONF = 'nanpresance.urls'
-
+GRAPHENE = {
+    'SCHEMA': 'nanpresance.schema.schema'
+}
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

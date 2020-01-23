@@ -106,9 +106,12 @@
                                         <div class="mb-3">
                                         <h2 id="dateQr" style="text-align: center;" >${myMin}min:${mySec}s </h2>
                                         <h3 style="text-align: center;"> avant que le codeQr ne disparaisse</h3>
+                                        <h3 style="text-align: center;"> ${resultat}</h3>
+                                        
                                     </div>
-                                <div class="p-3"> 
-                                        {% qr_from_text  myQr.titre_slug  size="m" image_format="png" error_correction="L" %}
+                                <div class="p-3" id="hans"> 
+                                    
+                                        {% qr_from_text  myQr.titre_slug   size="m" image_format="png" error_correction="L" %}
                                             <input type="hidden" id="debutQr" value={{myQr.debut_heure_arrivee}}>
                                             <input type="hidden" id="finQr" value={{myQr.fin_heure_arrivee}}>
                                             <input type="hidden"  value={{myQr.jours}}>
@@ -156,8 +159,10 @@
                 dateQr:'',
                 patrick:"patrick",
                 QrCode:"bonjour 2020",
-                //
-                //
+                base_url : '',
+                resultat:'hans',
+                result:'',
+                jour:'',
                 debutQr:document.getElementById('debutQr').value,
                 finQr:document.getElementById('finQr').value,
                 myMin:'',
@@ -166,12 +171,15 @@
                 hDebutQr:'',
                 hFinQr:'',
                 isQr:document.getElementById('isQr').value=='False'?false:true,
-                updatedCodeQr:false
+                updatedCodeQr:false,
                 // dateToUpdate:document.getElementById('dateQr').innerHTML,
+                titre_slug:'',
             },
             delimiters:["${","}"],
             mounted() {
                 this.chono()
+                this.base_url = window.location.protocol + '//' + window.location.host + '/'
+                this.jour = '{{jour}}'
             },
             methods:{
                 chono:function(){
@@ -181,8 +189,46 @@
                     myChonoSec = seconde_fin - curentSeconde;
                     this.myMin = Math.floor(myChonoSec/60)
                     this.mySec = myChonoSec%60
-                    console.log(this.myMin,this.mySec)
+                    console.log(this.myMin,this.mySec,this.jour)
                 },
+                getqr(titre_slug,event) {
+                    this.titre_slug = titre_slug
+                    axios.defaults.xsrfCookieName = 'csrftoken'
+                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                    console.log(titre_slug)
+                    axios({
+                        url: this.base_url + 'graphql',
+                        method: 'post',
+                        data: {
+                            query: `
+                            query{
+                                allQrcode(jours:"2020-01-23"){
+                                  edges{
+                                    node{
+                                      titreSlug,
+                                    }
+                                  }
+                                }
+                              }
+                    `
+                        }
+                    })
+                    .then(response => {
+                        this.loader=false
+                        this.result = response.data.data.allQrcode.edges[0]
+                        this.resultat = this.result.node.titreSlug
+                        console.log('dataaaaaaa gettttingggggggg')
+                        console.log(this.resultat)
+ 
+
+                    })
+                    .catch((err) => {
+                        this.loader=false
+                        console.log(err);
+                    })
+
+            
+         },
             }
         })
         if(app.isQr){
@@ -204,7 +250,14 @@
         }
 
     </script>
-
+    <script type="text/javascript"> 
+        setInterval(function(){
+          
+            app.getqr('{{jour}}')
+            console.log('gooooooooooooooooooooooooooooooooooooooooooooooooooooo')
+            location.reload();
+          },60000)
+      </script>
     </body>
 
 </html>
