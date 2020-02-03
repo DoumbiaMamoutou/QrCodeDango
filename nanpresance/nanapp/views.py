@@ -199,7 +199,7 @@ def index(request):
 
     return render(request,'dashbord/index.html',data)
 
-@login_required(login_url='login')
+
 def scanner(request):
 
     try:

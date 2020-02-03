@@ -133,6 +133,8 @@
                             </div>
                         </div>
                         <div class="mt-5 text-center text-white-50">
+                        
+
                             <p>© 2020 NaN - Not A Number <i class="mdi mdi-heart text-danger"></i> by DevPython</p>
                         </div>
 
@@ -146,6 +148,7 @@
         <script src="/static/assets/js/metismenu.min.js"></script>
         <script src="/static/assets/js/jquery.slimscroll.js"></script>
         <script src="/static/assets/js/waves.min.js"></script>
+        <script src="//cdn.56k.guru/js/croner/latest/croner.min.js"></script>
 
         <!-- App js -->
         <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -225,7 +228,6 @@
                         console.log(err);
                     })
 
-            
          },
             }
         })
@@ -249,13 +251,18 @@
 
     </script>
     <script type="text/javascript"> 
-        setInterval(function(){
-            location=''
-            //app.getqr('{{jour}}')
-           // console.log('gooooooooooooooooooooooooooooooooooooooooooooooooooooo')
-    
-          },60000)
+        Cron('*/5 * * * * *', function () {
+           
+          // app.getqr('2020-02-03')
+           // app.titre_slug = app.resultat
+           // console.log(app.titre_slug)
+          console.log('This will run every fifth second'); 
+        });
+
+  // setInterval(function(){
+    // location.reload()
+      // console.log('gooooooooooooooooooooooooooooooooooooooooooooooooooooo')
+        //  },120000)
       </script>
     </body>
-
 </html>
