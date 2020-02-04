@@ -16,8 +16,7 @@ def generateqr():
     number = sendrandomnumber()
     mot = randomString(number)
     m = hashlib.sha224('{}'.format(mot).encode()).hexdigest()
-    # m1=uuid.uuid1()
-    # print(m)
+
     try:
         new_qr_code = Qrcode.objects.filter(jours=date.today(),status=True)[:1].get()
         new_qr_code.titre_slug= m

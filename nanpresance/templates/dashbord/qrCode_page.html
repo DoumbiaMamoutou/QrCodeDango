@@ -251,12 +251,12 @@
 
     </script>
     <script type="text/javascript"> 
-        Cron('*/5 * * * * *', function () {
-           
+        Cron('*/60 * * * * *', function () {
+           location.reload();
           // app.getqr('2020-02-03')
            // app.titre_slug = app.resultat
            // console.log(app.titre_slug)
-          console.log('This will run every fifth second'); 
+        //  console.log('This will run every fifth second'); 
         });
 
   // setInterval(function(){
