@@ -34,11 +34,20 @@
 
                                     </div>
                                 </div>
+                                {% if  isQr %}
                                 <div class="p-3"> 
-
                                         {% qr_from_text  myQr.titre_slug  size="m" image_format="png" error_correction="L" %}
-
                                 </div>
+                                {% endif %}
+                                {% if not isQr %}
+                                <div class="md-4">
+                                    
+                                    <div class="text-center">
+                                        <img src="/static/img/undraw_security_o890.png" style="height: 250px;width: 250px;margin: 20px;text-align: center">
+                                        <h5 class="font-14">Le code Qr est inactif </h5>
+                                    </div>
+                                </div>
+                                {% endif %}
                     
                             </div>
                         </div>
